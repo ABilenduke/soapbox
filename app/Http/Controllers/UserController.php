@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Resources\UserCollection;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\User;
+use App\Http\Resources\User as UserResource;
+
+class UserController extends Controller
+{
+    public function index()
+    {
+        $users = null;
+
+        if ($auth = request()->user()) {
+            $users = User::where('id', '<>', $auth->id)->paginate(15);
+        } else {
+            $users = User::paginate(15);
+        }
+
+        return new UserCollection($users);
+    }
+
+    public function show()
+    {
+        return request()->user();
+    }
+
+    public function update()
+    {
+        $user = request()->user();
+
+        $validator = Validator::make(request()->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user->update([
+            'name' => request()->name,
+            'username' => request()->username,
+            'email' => request()->email
+        ]);
+
+        return response()->json(["message" => "user_updated_successfully"], 200);
+    }
+
+    public function delete()
+    {
+        $user = request()->user();
+    }
+}

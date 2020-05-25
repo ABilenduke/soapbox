@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  #PHP Service
+  php_fpm_app:
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    volumes:
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+
+  #Node Service
+  node_app:
+    environment:
+      NODE_ENV: development
+
+  #Nginx Service
+  webserver:
+    volumes:
+      - ./nginx/conf.d/development/:/etc/nginx/conf.d/
+
+  #MySQL Service
+  mysql_db:
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_USER: 'soapbox_master'
+      MYSQL_PASSWORD: 'Test@1234'
+      MYSQL_DATABASE: 'soapbox'
+      SERVICE_TAGS: 'dev'
+      SERVICE_NAME: 'mysql'
+
+  # mailhog:
+  #   image: mailhog/mailhog:latest
+  #   container_name: mailhog
+  #   restart: unless-stopped
+  #   tty: true
+  #   networks:
+  #     - app-network
