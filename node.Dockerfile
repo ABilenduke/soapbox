@@ -1,10 +1,7 @@
-FROM node:10.18.1-alpine3.11
+FROM node:lts-alpine as build-stage
 LABEL maintainer="Andrew Bilenduke <andrewbilenduke@gmail.com>"
 
-RUN mkdir -p /var/www/
-RUN mkdir -p /var/www/node_modules
-
-WORKDIR /var/www/
+WORKDIR /var/www
 
 COPY package*.json ./
 

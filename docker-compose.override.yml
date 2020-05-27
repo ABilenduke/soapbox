@@ -3,8 +3,6 @@ services:
 
   #PHP Service
   php_fpm_app:
-    environment:
-      XDEBUG_CONFIG: remote_host=host.docker.internal
     volumes:
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 

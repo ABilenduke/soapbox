@@ -6,24 +6,21 @@ services:
     build:
       context: .
       dockerfile: php.Dockerfile
+      args:
+        APPLICATION_ENVIRONMENT: ${APP_ENV}
+        REMOTE_WORKING_DIR: /var/www/
     image: soapbox_php_fpm
     container_name: php_fpm_app
     restart: unless-stopped
     tty: true
     environment:
-      APP_ENV: ${APP_ENV}
-      PHP_VERSION: ${PHP_VERSION}
-      REMOTE_WORKING_DIR: ${REMOTE_WORKING_DIR}
       SERVICE_NAME: app
       SERVICE_TAGS: dev
-    env_file: ./.docker.env
-    working_dir: ${REMOTE_WORKING_DIR}
-    ports:
-      - 9001:9001
+    working_dir: /var/www/
     networks:
-      - app-network
+      - backend-network
     volumes:
-       - ./:/var/www/
+       - .:/var/www
        - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
 
   #Node Service
@@ -39,9 +36,9 @@ services:
       NODE_ENV: production
     working_dir: /var/www/
     networks:
-      - app-network
+      - frontend-network
     volumes:
-       - ./:/var/www/
+       - .:/var/www
 
   #Nginx Service
   webserver:
@@ -56,7 +53,8 @@ services:
       - php_fpm_app
       - node_app
     networks:
-      - app-network
+      - frontend-network
+      - backend-network
     volumes:
       - ./:/var/www/
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -73,10 +71,10 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - dbdata:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
-      - app-network
+      - backend-network
 
   redis:
     build: ./redis
@@ -87,14 +85,18 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - app-network
+      - backend-network
 
 #Docker Networks
 networks:
-  app-network:
+  frontend-network:
+    driver: bridge
+  backend-network:
     driver: bridge
 
-##Volumes
-#volumes:
-#  dbdata:
-#    driver: local
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+  app_node_modules:
+    driver: local

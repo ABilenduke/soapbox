@@ -1,8 +1,3 @@
-# Environment variables
-ARG APP_ENV
-ARG REMOTE_WORKING_DIR
-ARG PHP_VERSION
-
 # PHP Version alpine image to install based on the PHP_VERSION environment variable
 FROM php:7.4-fpm-alpine
 
@@ -29,13 +24,31 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
    php7-session \
    php7-zlib
 
+# RUN apk add --no-cache \
+#     freetype \
+#     libpng \
+#     libjpeg-turbo \
+#     freetype-dev \
+#     libpng-dev \
+#     libjpeg-turbo-dev \
+#     && docker-php-ext-configure gd \
+#     --with-freetype \
+#     --with-jpeg \ 
+#     && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
+#     docker-php-ext-install -j${NPROC} gd && \
+#     apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
+
 # Install extensions
 RUN docker-php-ext-install pdo pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
 
+ARG APPLICATION_ENVIRONMENT
+
 # install xdebug and enable it if the development environment is local
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
+RUN if [ "$APPLICATION_ENVIRONMENT" = "local" ] ; then \ 
+  pecl install xdebug \
+  && docker-php-ext-enable xdebug \
+;fi
 
 # Install PHP Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -46,14 +59,15 @@ RUN rm -rf /var/cache/apk/*
 # Add UID '1000' to www-data
 RUN apk add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
 
+ARG REMOTE_WORKING_DIR
+
 # Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www/
+COPY --chown=www-data:www-data . $REMOTE_WORKING_DIR
 
 # Change current user to www
 USER www-data
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-
 # Run php-fpm
 CMD ["php-fpm"]
+
+EXPOSE 9000

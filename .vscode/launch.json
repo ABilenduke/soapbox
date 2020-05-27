@@ -9,9 +9,14 @@
       "type": "php",
       "request": "launch",
       "port": 9000,
+      "log": true,
+      "externalConsole": false,
       "pathMappings": {
         "/var/www": "${workspaceRoot}"
-      }
+      },
+      "ignore": [
+          "**/vendor/**/*.php"
+      ]
     },
     {
       "name": "Launch currently open script",
@@ -21,19 +26,5 @@
       "cwd": "${fileDirname}",
       "port": 9000
     },
-    {
-      "log": true,
-      "name": "XDebug listening to Laradock",
-      "type": "php",
-      "request": "launch",
-      "port": 9000,
-      "externalConsole": false,
-      "pathMappings": {
-          "/var/www": "C:/Users/andre/code/Portfolio/soapbox",
-       },
-       "ignore": [
-          "**/vendor/**/*.php"
-       ]
-    }
   ]
 }
