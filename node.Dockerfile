@@ -1,7 +1,7 @@
 FROM node:lts-alpine as build-stage
 LABEL maintainer="Andrew Bilenduke <andrewbilenduke@gmail.com>"
 
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 COPY package*.json ./
 

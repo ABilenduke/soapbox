@@ -59,10 +59,8 @@ RUN rm -rf /var/cache/apk/*
 # Add UID '1000' to www-data
 RUN apk add shadow && usermod -u 1000 www-data && groupmod -g 1000 www-data
 
-ARG REMOTE_WORKING_DIR
-
 # Copy existing application directory permissions
-COPY --chown=www-data:www-data . $REMOTE_WORKING_DIR
+COPY --chown=www-data:www-data . /var/www/html
 
 # Change current user to www
 USER www-data
