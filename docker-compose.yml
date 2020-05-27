@@ -19,7 +19,7 @@ services:
     networks:
       - backend-network
     volumes:
-       - .:/var/www/html
+       - .:/var/www/html:cached
        - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
 
   #Node Service
@@ -37,7 +37,7 @@ services:
     networks:
       - frontend-network
     volumes:
-       - .:/var/www/html
+       - .:/var/www/html:cached
 
   #Nginx Service
   webserver:
@@ -55,7 +55,7 @@ services:
       - frontend-network
       - backend-network
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/html:cached
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/ssl:/etc/nginx/ssl
 #      - ./nginx/conf.d/production/:/etc/nginx/conf.d/

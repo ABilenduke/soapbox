@@ -12,7 +12,7 @@
       "log": true,
       "externalConsole": false,
       "pathMappings": {
-        "/var/www": "${workspaceRoot}"
+        "/var/www/html": "${workspaceRoot}"
       },
       "ignore": [
           "**/vendor/**/*.php"
