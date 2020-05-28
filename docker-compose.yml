@@ -67,6 +67,13 @@ services:
     container_name: mysql_db
     restart: unless-stopped
     tty: true
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      SERVICE_TAGS: 'dev'
+      SERVICE_NAME: 'mysql'
     ports:
       - "3306:3306"
     volumes:
