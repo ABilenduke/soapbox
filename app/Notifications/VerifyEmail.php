@@ -3,11 +3,15 @@
 namespace App\Notifications;
 
 use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\Notifications\VerifyEmail as Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class VerifyEmail extends Notification
+class VerifyEmail extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * Get the verification URL for the given notifiable.
      *

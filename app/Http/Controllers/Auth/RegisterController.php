@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Mail\UserConfirmEmail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -90,10 +89,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, User $user)
     {
-        if ($user instanceof MustVerifyEmail) {
-            $user->sendEmailVerificationNotification();
-            return response()->json(['status' => trans('verification.sent')]);
-        }
-        return response()->json($user);
+        return return response()->json(['status' => trans('verification.sent')]);
     }
 }
