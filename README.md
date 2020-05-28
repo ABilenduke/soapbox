@@ -16,9 +16,9 @@ Follow the steps below to run the site locally.
 - `cd soapbox`
 - `cp .env.example .env`
 - `code .env`
-- add the mysql database name, user and password to the env file. Set the `DB_HOST` environment variable to the mysql container name `mysql_db`.
-- set the `REDIS_HOST` environment variable to redis container name `redis`
-- add smtp mail credentials such as mailtrap.io
+- Create a database name, user and password in the env file, these values will be used to create the mysql container. Make sure the `DB_HOST` environment variable is set to the mysql container name `mysql_db`.
+- Set the `REDIS_HOST` environment variable to redis container name `redis`
+- Add smtp mail credentials such as mailtrap.io (Mailhog to come soon)
 - Change the `xdebug.remote_host` in the `./php/xdebug.ini` depending on your environment
 - - Using windows or mac with docker desktop use `"host.docker.internal"` as the value
 - - Using linux (if you are using wsl with docker desktop this applies as well) use the systems ip address. Use the command `ifconfig` if you are not sure what your ip is, get the inet value. (WSL 2 seems to change the ip, if xdebug doesn't work, make sure it hasn't changed)
