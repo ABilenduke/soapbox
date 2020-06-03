@@ -9,7 +9,7 @@
                 <v-img
                     height="200"
                     width="200"
-                    :src="`http://localhost/storage/${user.avatar ? user.avatar : 'images/avatars/default_avatar.jpg'}`"
+                    :src="user.avatar ? `/storage/${user.avatar}` : '/images/site/default_avatar.jpg'"
                 ></v-img>
                 <v-btn @click="avatarModalIsOpen = true">
                   Change Avatar

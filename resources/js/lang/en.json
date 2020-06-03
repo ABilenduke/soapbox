@@ -19,6 +19,32 @@
   "home": "Home",
   "logout": "Logout",
   "settings": "Settings",
+  "users": "Users",
+  "subscriptions": "Subscriptions",
+  "history": "History",
+  "saved": "Saved",
+  "category": "Category",
+  "description": "Description",
+  "coverImage": "Cover Image",
+  "addCoverImage": "Add a cover image",
+  "selectImage": "Select an image",
+  "image": "Image",
+  "zoomIn": "Zoom In",
+  "zoomOut": "Zoom Out",
+  "crop": "Crop",
+  "articleNotFound": "The article was not found",
+  "create": {
+    "title": "Create",
+    "index": {
+      "title": "Create your own articles"
+    },
+    "new": {
+      "title": "Create a new article"
+    }
+  },
+  "report": "Report",
+  "title": "Title",
+  "subtitle": "Subtitle",
   "emailPassword": {
     "title": "Send Password Reset Email",
     "error": "Something went wrong, try agin later."

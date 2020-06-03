@@ -18,7 +18,9 @@ class CreateArticlesTable extends Migration
             $table->uuid('user_id');
             $table->uuid('category_id');
             $table->string('title');
+            $table->string('subtitle')->nullable();
             $table->longText('description');
+            $table->boolean('is_published')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

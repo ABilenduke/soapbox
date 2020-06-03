@@ -20,7 +20,7 @@ class Avatar extends Model
     protected $fillable = [
         'path',
         'user_id',
-        'primary',
+        'is_primary',
     ];
 
     /**
@@ -38,7 +38,7 @@ class Avatar extends Model
      * @var array
      */
     protected $casts = [
-        'primary' => 'boolean',
+        'is_primary' => 'boolean',
     ];
 
     /**

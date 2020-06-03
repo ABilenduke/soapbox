@@ -67,7 +67,7 @@
             <v-img
               height="200"
               width="200"
-              :src="`http://localhost/storage/${userCopy.avatar ? userCopy.avatar : 'images/avatars/default_avatar.jpg'}`"
+              :src="userCopy.avatar ? `/storage/${userCopy.avatar}` : '/images/site/default_avatar.jpg'"
             />
           </v-col>
 

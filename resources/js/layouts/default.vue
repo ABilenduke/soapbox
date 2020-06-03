@@ -59,7 +59,7 @@
               tile
             >
               <img
-                :src="`http://localhost/storage/${vxUser.avatar ? vxUser.avatar : 'images/avatars/default_avatar.jpg'}`"
+                :src="vxUser.avatar ? `/storage/${vxUser.avatar}` : '/images/site/default_avatar.jpg'"
                 alt="user-avatar"
               >
             </v-avatar>

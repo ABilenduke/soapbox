@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\UserCollection;
 
 class FollowController extends Controller
 {
@@ -16,7 +17,7 @@ class FollowController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except(['following', 'followers']);
     }
 
     public function create($username) {
@@ -54,5 +55,27 @@ class FollowController extends Controller
         $authUser->following()->where($attributes)->get()->each->delete();
 
         return response()->json(['message' => 'user_un_followed'], 200);
+    }
+
+    public function following($username) {
+        $user = User::where('username', $username)->first();
+
+        if ($user) {
+            $following = $user->following()->paginate(15);
+            return new UserCollection($following);
+        }
+
+        return response()->json(['error' => 'user_not_found'], 400);
+    }
+
+    public function followers($username) {
+        $user = User::where('username', $username)->first();
+
+        if ($user) {
+            $users = $user->followers()->paginate(15);
+            return new UserCollection($users);
+        }
+
+        return response()->json(['error' => 'user_not_found'], 400);
     }
 }

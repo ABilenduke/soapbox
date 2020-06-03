@@ -46,13 +46,13 @@ class AvatarController extends Controller
 
         request()->user()
             ->avatars()
-            ->where('primary', true)
-            ->update(['primary' => false]);
+            ->where('is_primary', true)
+            ->update(['is_primary' => false]);
 
         Avatar::create([
             'user_id' => request()->user()->id,
             'path' => $avatarPath,
-            'primary' => true
+            'is_primary' => true
         ]);
 
         return response()->json([

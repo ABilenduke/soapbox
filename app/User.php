@@ -78,7 +78,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function getAvatarAttribute()
     {
-        $avatar = $this->avatars()->where('primary', true)->first();
+        $avatar = $this->avatars()->where('is_primary', true)->first();
         return $avatar ? $avatar->path: null;
     }
 
@@ -192,7 +192,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function isFollowed()
     {
         if (!request() || !request()->user()) {
-            return true;
+            return false;
         }
 
         return !!$this->followers()->where('follower_id', request()->user()->id)->count();

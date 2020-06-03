@@ -13,6 +13,50 @@ class Article extends Model
         Traits\UsesUuid;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'subtitle',
+        'description',
+        'is_published',
+        'category_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'user_id',
+        'category_id'
+    ];
+
+    protected $appends = [
+        'identifier',
+        'coverImage'
+    ];
+
+    /**
+     * Get the user that created the article.
+     */
+    public function getIdentifierAttribute()
+    {
+        return md5($this->id . $this->created_at);
+    }
+
+    /**
+     * Get the user that created the article.
+     */
+    public function category()
+    {
+        return $this->hasOne('App\Category');
+    }
+
+    /**
      * Get the user that created the article.
      */
     public function author()
@@ -25,8 +69,14 @@ class Article extends Model
         return $this->hasMany('App\Comment');
     }
 
-    public function tags()
+    public function images()
     {
-        return $this->hasMany('App\Tag');
+        return $this->hasMany('App\ArticleImage');
+    }
+
+    public function getCoverImageAttribute()
+    {
+        $article = $this->images()->where('is_cover', true)->first();
+        return $article ? $article->path : null;
     }
 }

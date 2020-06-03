@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import ArticleCard from './base/ArticleCard.vue'
 import Pagination from './base/Pagination.vue'
 import Modal from './base/Modal.vue'
 import ImageCropper from './base/ImageCropper.vue'
@@ -8,6 +9,10 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 // Components that are registered globaly.
 [
+  {
+    name: 'ArticleCard',
+    comp: ArticleCard
+  },
   {
     name: 'Pagination',
     comp: Pagination

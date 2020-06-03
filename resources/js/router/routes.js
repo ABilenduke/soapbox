@@ -46,12 +46,38 @@ export default [
     ]
   },
 
-  { path: '/users', name: 'users', component: page('users/index.vue') },
-  { path: '/subscriptions', name: 'subscriptions', component: page('users/subscriptions.vue') },
+  {
+    path: '/users',
+    name: 'users',
+    component: page('users/index.vue')
+  },
+  {
+    path: '/subscriptions',
+    name: 'subscriptions',
+    component: page('users/subscriptions.vue')
+  },
 
-  { path: '/articles/saved', name: 'articles.saved', component: page('articles/saved.vue') },
-  { path: '/articles/history', name: 'articles.history', component: page('articles/history.vue') },
-  { path: '/articles/create', name: 'articles.create', component: page('articles/create.vue') },
+  {
+    path: '/articles/saved',
+    name: 'articles.saved',
+    component: page('articles/saved.vue')
+  },
+  {
+    path: '/articles/history',
+    name: 'articles.history',
+    component: page('articles/history.vue')
+  },
+  { 
+    path: '/articles/create',
+    name: 'articles.create.index',
+    component: page('articles/create/index.vue'),
+  },
+  {
+    path: '/articles/create/content/:articleId',
+    name: 'articles.create.content',
+    component: page('articles/create/content.vue')
+  },
 
+  
   { path: '*', component: page('errors/404.vue') }
 ]

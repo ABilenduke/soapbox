@@ -17,7 +17,7 @@ class CreateAvatarsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->string('path');
-            $table->boolean('primary');
+            $table->boolean('is_primary');
             $table->timestamps();
             $table->softDeletes();
 

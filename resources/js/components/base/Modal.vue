@@ -41,6 +41,5 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 101;
-  background-color: #fff;
 }
 </style>

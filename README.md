@@ -2,11 +2,13 @@
 
 Soapbox is single page application blog built using Laravel, Vue and Vuetify.
 
-- [Live Site](https://soapbox.andrewbilenduke.com).
-- [Creator: Andrew Bilenduke](https://andrewbilenduke.com).
-- [Laravel](https://laravel.com).
-- [Vue](https://vuejs.org).
-- [Vuetify](https://vuetifyjs.com).
+- [Live Site](https://soapbox.andrewbilenduke.com)
+- [Creator: Andrew Bilenduke](https://andrewbilenduke.com)
+
+
+- [Laravel](https://laravel.com)
+- [Vue](https://vuejs.org)
+- [Vuetify](https://vuetifyjs.com)
 
 ## Setup
 
@@ -26,5 +28,6 @@ Follow the steps below to run the site locally.
 - `docker-compose exec php_fpm_app composer install` (in production always add the flag `--no-dev`)
 - `docker-compose exec php_fpm_app php artisan key:generate`
 - `docker-compose exec php_fpm_app php artisan jwt:secret`
-- `docker-compose exec php_fpm_app php artisan db:migrate`
+- `docker-compose exec php_fpm_app php artisan migrate`
+- `docker-compose exec php_fpm_app php artisan db:seed`
 - `docker-compose exec php_fpm_app php artisan storage:link`

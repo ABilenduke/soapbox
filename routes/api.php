@@ -19,6 +19,11 @@ Route::get('/profile/user/{username}', 'Profile\UserController@show');
 Route::get('/auth/check/email/{email}', 'Auth\CheckUserFieldAvailabilityController@email');
 Route::get('/auth/check/username/{username}', 'Auth\CheckUserFieldAvailabilityController@username');
 
+Route::get('profile/following/{username}', 'Profile\FollowController@following');
+Route::get('profile/followers/{username}', 'Profile\FollowController@followers');
+
+Route::get('categories', 'CategoryController@index');
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('/user', 'UserController@show');
@@ -31,6 +36,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('profile/follow/{username}', 'Profile\FollowController@create');
     Route::delete('profile/follow/{username}', 'Profile\FollowController@delete');
+
+    Route::get('user/articles/drafts', 'User\ArticleController@drafts');
+    Route::get('user/articles/published', 'User\ArticleController@published');
+
+    Route::post('article', 'ArticleController@create');
+    Route::get('article/{id}', 'ArticleController@show');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
