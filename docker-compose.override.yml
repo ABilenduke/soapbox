@@ -6,11 +6,6 @@ services:
     volumes:
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
-  #Node Service
-  node_app:
-    environment:
-      NODE_ENV: development
-
   #Nginx Service
   webserver:
     volumes:
