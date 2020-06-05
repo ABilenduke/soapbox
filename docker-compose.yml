@@ -36,6 +36,7 @@ services:
       - frontend-network
     volumes:
        - .:/var/www/html:cached
+       - app_node_modules:/var/www/html/node_modules:cached
 
   #Nginx Service
   webserver:
