@@ -31,8 +31,6 @@ services:
     container_name: node_app
     restart: unless-stopped
     tty: true
-    environment:
-      NODE_ENV: ${NODE_ENV}
     working_dir: /var/www/html
     networks:
       - frontend-network
