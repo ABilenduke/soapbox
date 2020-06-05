@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
-use App\Mail\UserConfirmEmail;
+use App\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -24,15 +24,10 @@ class AuthenticationTest extends TestCase
         return array_merge([
             'email' => 'test@example.com',
             'name' => 'John Doe',
+            'username' => 'JohnDozer',
             'password' => 'secret_password',
             'password_confirmation' => 'secret_password',
         ], $overrides);
-    }
-
-    /** @test */
-    public function testRealMailIsNotSent()
-    {
-        Mail::assertNothingSent();
     }
 
     /**
@@ -40,16 +35,13 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function testAUserCanCreateAnAccount()
+    public function testAUserCanRegister()
     {
-        $response = $this->json('post', '/api/auth/register/', $this->validRegistrationParams());
+        $response = $this->json('post', '/api/register', $this->validRegistrationParams());
         
         $response
             ->assertStatus(201)
-            ->assertJson([
-                'created' => true,
-                'message' => 'signed_up_successfully'
-            ]);;
+            ->assertJson([ 'status' => 'We have e-mailed your verification link!' ]);
 
         $this->assertCount(1, User::all());
 
@@ -58,11 +50,31 @@ class AuthenticationTest extends TestCase
             function ($user) {
                 $this->assertEquals('test@example.com', $user->email);
                 $this->assertEquals('John Doe', $user->name);
+                $this->assertEquals('JohnDozer', $user->username);
                 $this->assertTrue(Hash::check('secret_password', $user->password));
             }
         );
+    }
 
-        Mail::assertQueued(UserConfirmEmail::class);
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testAUserCannotRegisterWithAnExistingEmailOrUsername()
+    {
+        $existingUser = $this->validRegistrationParams();
+
+        $user = create(User::class, [
+            'email' => $existingUser['email'],
+            'name' => $existingUser['name'],
+            'username' => $existingUser['username'],
+            'password' => $existingUser['password'],
+        ]);
+
+        $this->json('post', '/api/register', $existingUser)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['email', 'username']);
     }
 
     // public function testAUserCanResetTheirPassword()
@@ -89,9 +101,6 @@ class AuthenticationTest extends TestCase
     public function testAUserCanLogout()
     {
         $response = $this->get('/api/logout');
-
         $response->assertStatus(200);
     }
-
-    
 }

@@ -31,3 +31,6 @@ Follow the steps below to run the site locally.
 - `docker-compose exec php_fpm_app php artisan migrate`
 - `docker-compose exec php_fpm_app php artisan db:seed`
 - `docker-compose exec php_fpm_app php artisan storage:link`
+
+Running tests
+- `docker-compose exec php_fpm_app php vendor/bin/phpunit`

@@ -89,6 +89,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, User $user)
     {
-        return response()->json(['status' => trans('verification.sent')]);
+        return response()->json(['status' => trans('verification.sent')], 201);
     }
 }
