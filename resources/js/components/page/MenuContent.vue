@@ -99,7 +99,6 @@ export default {
     this.items = [
       { icon: 'mdi-home', text: 'home', to: 'home' },
       { icon: 'mdi-account-group', text: 'users', to: 'users' },
-      { icon: 'mdi-account-star', text: 'subscriptions', to: 'subscriptions' },
       { icon: 'mdi-history', text: 'history', to: 'articles.history' },
       { icon: 'mdi-bookmark', text: 'saved', to: 'articles.saved' },
       { icon: 'mdi-pencil', text: 'create.title', to: 'articles.create.index' },

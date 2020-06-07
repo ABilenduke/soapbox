@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use SoftDeletes, Traits\UsesUuid;
+    use SoftDeletes,
+        Traits\UsesUuid,
+        Traits\RecordsActivity;
 
     /**
      * The attributes that are mass assignable.

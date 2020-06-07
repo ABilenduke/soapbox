@@ -14,6 +14,7 @@
       color="blue"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+
       <v-toolbar-title class="mr-12 align-center">
         <v-btn
           link
@@ -29,20 +30,7 @@
           <span class="title">Soapbox</span>
         </v-btn>
       </v-toolbar-title>
-      <v-spacer />
-      <v-row
-        align="center"
-        style="max-width: 650px"
-      >
-        <v-text-field
-          :append-icon-cb="() => {}"
-          placeholder="Search..."
-          single-line
-          append-icon="mdi-magnify"
-          color="white"
-          hide-details
-        />
-      </v-row>
+
       <v-spacer />
 
       <v-menu
@@ -177,6 +165,18 @@ export default {
 
   img {
     border-radius: 5px;
+  }
+}
+
+span.title {
+  visibility: hidden;
+  opacity: 0;
+  display: none;
+
+  @media (min-width: 576px) {
+    visibility: visible;
+    opacity: 1;
+    display: block;
   }
 }
 </style>

@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-    use SoftDeletes, Traits\UsesUuid;
+    use SoftDeletes,
+        Traits\UsesUuid,
+        Traits\HasReputation,
+        Traits\RecordsActivity;
 
     public function articles()
     {

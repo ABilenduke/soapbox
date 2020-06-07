@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleContent extends Model
 {
-    use SoftDeletes, Traits\UsesUuid;
+    use SoftDeletes,
+        Traits\UsesUuid,
+        Traits\RecordsActivity;
 }

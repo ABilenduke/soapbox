@@ -82,6 +82,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $avatar ? $avatar->path: null;
     }
 
+    /**
+     * Get all activity for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     public function avatars()
     {
         return $this->hasMany('App\Avatar');

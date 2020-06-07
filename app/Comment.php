@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    use SoftDeletes, Traits\Likeable, Traits\UsesUuid;
+    use SoftDeletes,
+        Traits\Likeable,
+        Traits\UsesUuid,
+        Traits\RecordsActivity;
 
     /**
      * Get the user that created the comment.

@@ -10,7 +10,8 @@ class Article extends Model
     use SoftDeletes,
         Traits\Likeable,
         Traits\Taggable,
-        Traits\UsesUuid;
+        Traits\UsesUuid,
+        Traits\RecordsActivity;
 
     /**
      * The attributes that are mass assignable.

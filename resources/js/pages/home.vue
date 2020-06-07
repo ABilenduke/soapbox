@@ -4,7 +4,8 @@
         <v-col
           v-for="article in articles"
           :key="article.key"
-          :cols="article.flex"
+          :lg="article.flex"
+          :sm="12"
         >
           <ArticleCard :article="article" />
         </v-col>
