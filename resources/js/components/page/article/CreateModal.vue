@@ -80,11 +80,11 @@
             <v-row>
               <v-col cols="12">
                 <ValidationProvider
-                  v-slot="{ errors }"
+                  v-slot="{}"
                   name="coverImage"
                   rules="required"
                 >
-                  <ImageCropper @imageCropped="addCoverImage" />
+                  <ImageCropper @imageCropped="addCoverImage" :aspectRatio="16 / 9" />
                   <v-img v-if="form.coverImage" :src="form.coverImage" />
                 </ValidationProvider>
               </v-col>
@@ -113,6 +113,7 @@
 
 <script>
 import axios from 'axios'
+import { ADD_MESSAGE } from '~/store/mutation-types'
 
 export default {
   name: "",
@@ -168,11 +169,15 @@ export default {
     },
     createArticle() {
       axios.post('/api/article', this.form)
-        .then((response) => {
-
+        .then(({ data }) => {
+          this.$emit('articleCreated', data.article)
         })
         .catch((error) => {
-
+          this.$store.commit(`flash/${ADD_MESSAGE}`, {
+            level: 'warning',
+            body: this.$t('articleNotCreated'),
+            isAutoRemove: true
+          })
         })
     }
   }

@@ -24,7 +24,7 @@
     <v-row>
       <v-col>
         <h2>{{ $t('drafts') }}</h2>
-        <v-container  v-if="draftArticles" fluid>
+        <v-container v-if="draftArticles && draftArticles.data.length > 0" fluid>
           <v-row dense>
             <v-col
               v-for="article in draftArticles.data"
@@ -35,24 +35,35 @@
             </v-col>
           </v-row>
         </v-container>
+        <v-container v-else>
+          <v-row dense>
+            <v-col>
+              <p>
+                {{ $t('noDrafts') }}
+              </p>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-col>
     </v-row>
 
     <CreateModal
       :modalIsOpen="createModalIsOpen"
       @modalBackgroundClicked="createModalIsOpen = false"
+      @articleCreated="relocateToContent"
     />
   </v-container>
 </template>
 
 <script>
+import ArticleCard from '~/components/base/ArticleCard'
 import axios from 'axios'
 import CreateModal from '~/components/page/article/CreateModal.vue'
 
 export default {
   name: '',
   middleware: 'auth',
-  components: { CreateModal },
+  components: { CreateModal, ArticleCard },
   data: () => ({
     isSubmitting: false,
     draftArticles: null,
@@ -88,8 +99,11 @@ export default {
         })
         .finally(() => this.isSubmitting = false)
     },
-    createNewArticle() {
-
+    relocateToContent(articleId) {
+      this.$router.push({
+        name: 'articles.create.content',
+        params: { articleId: articleId}
+      })
     }
   }
 }

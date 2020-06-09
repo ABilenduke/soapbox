@@ -77,6 +77,11 @@ export default [
     name: 'articles.create.content',
     component: page('articles/create/content.vue')
   },
+  {
+    path: '/articles/view/:articleId',
+    name: 'articles.view',
+    component: page('articles/view.vue')
+  },
 
   
   { path: '*', component: page('errors/404.vue') }

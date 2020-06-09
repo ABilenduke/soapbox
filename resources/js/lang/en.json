@@ -33,6 +33,18 @@
   "zoomOut": "Zoom Out",
   "crop": "Crop",
   "articleNotFound": "The article was not found",
+  "articleNotCreated": "The article was not created. Try again later.",
+  "drafts": "Drafts",
+  "noDrafts": "You do not have any drafts created at this time. Create a new article by clicking the create button above.",
+  "articleContentNotFound": "The article content was not found.",
+  "articleContentDidNotSave": "The article content did not save. Try again.",
+  "articleContentSaved": "The article content has saved successfully.",
+  "articleContentSectionAdded": "The article content section was added successfully.",
+  "articleContentSectionWasNotAdded": "The article content section was not added successfully.",
+  "addContent": "Add Content",
+  "publishArticle": "Publish Article",
+  "articlePublished": "The article was published successfully.",
+  "articleNotPublished": "The article was not published successfully.",
   "create": {
     "title": "Create",
     "index": {

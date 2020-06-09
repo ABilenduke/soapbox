@@ -42,6 +42,15 @@ class Article extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_published' => 'boolean',
+    ];
+
+    /**
      * Get the user that created the article.
      */
     public function getIdentifierAttribute()
@@ -60,9 +69,14 @@ class Article extends Model
     /**
      * Get the user that created the article.
      */
-    public function author()
+    public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function content()
+    {
+        return $this->hasMany('App\ArticleContent')->orderBy('order');
     }
 
     public function comments()

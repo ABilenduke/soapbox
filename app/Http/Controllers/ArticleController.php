@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Category;
+use App\Article;
 use App\ArticleImage;
+use App\ArticleContent;
 
 class ArticleController extends Controller
 {
@@ -17,12 +19,19 @@ class ArticleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except(['index', 'show']);
+    }
+
+    public function index()
+    {
+        $articles = Article::where('is_published', true)->paginate(15);
+
+        return response()->json(['articles' => $articles], 200);
     }
 
     public function show($id)
     {
-        $article = request()->user()->articles()->where('id', $id)->first();
+        $article = Article::where('id', $id)->first();
 
         if ($article) {
             return response()->json(['article' => $article], 200);
@@ -53,12 +62,12 @@ class ArticleController extends Controller
         $article = request()->user()->articles()->create([
             "title" => request()->title,
             "subtitle" => request()->subtitle,
-            "description" => request()->title,
+            "description" => request()->description,
             "category_id" => $category_id
         ]);
 
         $articleIdentifier = $article->identifier;
-        $image = \Image::make(request()->coverImage)->resize(700, 700)->encode('jpg');
+        $image = \Image::make(request()->coverImage)->encode('jpg');
         $imageName = substr(md5(Carbon::now()->getTimestamp()), 0, 25);
         $imagePath = "images/articles/$articleIdentifier/$imageName.jpg";
         
@@ -70,9 +79,27 @@ class ArticleController extends Controller
             'is_cover' => true
         ]);
 
+        ArticleContent::create([
+            'article_id' => $article->id,
+            'order' => 1,
+            'content' => "Add content here."
+        ]);
+
         return response()->json([
             'message' => 'article_created',
             'article' => $article->id
         ], 201);
+    }
+
+    public function publish($id)
+    {
+        $article = request()->user()->articles()->where('id', $id)->first();
+
+        if ($article) {
+            $article->update(['is_published' => true]);
+            return response()->json(['message' => 'article_published'], 200);
+        }
+
+        return response()->json(['message' => 'article_not_found'], 400);
     }
 }

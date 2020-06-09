@@ -3,7 +3,6 @@
     <v-row>
       <v-col cols="12">
         <v-file-input
-          :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
           :placeholder="generatedPlaceholder"
           :label="generatedLabel"
@@ -24,7 +23,7 @@
           <v-container class="py-0">
             <v-row v-if="imageUrl">
               <v-col cols="12">
-                <VueCropper ref="cropper" :aspect-ratio="1 / 1" :src="imageUrl" alt="Source Image" />
+                <VueCropper ref="cropper" :aspect-ratio="aspectRatio" :src="imageUrl" alt="Source Image" />
               </v-col>
             </v-row>
           </v-container>
@@ -56,17 +55,15 @@ export default {
     label: {
       type: String,
       required: false
+    },
+    aspectRatio: {
+      type: Number,
+      default: 1 / 1
     }
   },
   data: () => ({
     modalIsOpen: false,
-    imageUrl: null,
-    rules: [
-      value =>
-        !value ||
-        value.size < 2000000 ||
-        "Avatar size should be less than 2 MB!"
-    ]
+    imageUrl: null
   }),
   created() {
     this.generatedPlaceholder = this.placeholder ? this.placeholder : this.$t('selectImage')
@@ -74,34 +71,34 @@ export default {
   },
   methods: {
     cropImage() {
-      const imageCropped = this.$refs.cropper.getCroppedCanvas().toDataURL();
-      this.$emit("imageCropped", imageCropped);
-      this.imageUrl = null;
-      this.modalIsOpen = false;
+      let croppedCanvas = this.$refs.cropper.getCroppedCanvas()
+      this.$emit("imageCropped", croppedCanvas.toDataURL('image/jpeg'))
+      this.imageUrl = null
+      this.modalIsOpen = false
     },
     setImage(file) {
       if (file.type.indexOf("image/") === -1) {
-        alert("Please select an image file");
-        return;
+        alert("Please select an image file")
+        return
       }
 
       if (typeof FileReader === "function") {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = event => {
-          this.modalIsOpen = true;
-          this.imageUrl = event.target.result;
+          this.modalIsOpen = true
+          this.imageUrl = event.target.result
           // rebuild cropperjs with the updated source
           if (this.$refs.cropper) {
-            this.$refs.cropper.replace(event.target.result);
+            this.$refs.cropper.replace(event.target.result)
           }
         };
         reader.readAsDataURL(file);
       } else {
-        alert("Sorry, FileReader API not supported");
+        alert("Sorry, FileReader API not supported")
       }
     },
     zoom(percent) {
-      this.$refs.cropper.relativeZoom(percent);
+      this.$refs.cropper.relativeZoom(percent)
     }
   }
 };

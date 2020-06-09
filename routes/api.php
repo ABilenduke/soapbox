@@ -24,6 +24,10 @@ Route::get('profile/followers/{username}', 'Profile\FollowController@followers')
 
 Route::get('categories', 'CategoryController@index');
 
+Route::get('articles', 'ArticleController@index');
+Route::get('article/{id}', 'ArticleController@show');
+Route::get('article/{id}/content', 'ArticleContentController@index');
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('/user', 'UserController@show');
@@ -41,7 +45,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user/articles/published', 'User\ArticleController@published');
 
     Route::post('article', 'ArticleController@create');
-    Route::get('article/{id}', 'ArticleController@show');
+
+    Route::post('article/{id}/publish', 'ArticleController@publish');
+
+    Route::post('article/{id}/content', 'ArticleContentController@create');
+    Route::patch('article/content/{id}', 'ArticleContentController@update');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
