@@ -1,8 +1,8 @@
 <template>
-  <v-card v-if="userCopy" class="mx-auto text-shadow" max-width="400" height="225">
+  <v-card v-if="userCopy" class="mx-auto text-shadow" max-width="400" height="225" dark>
     <v-img
       height="100%"
-      :src="`https://cdn.andrewbilenduke.com/resume/soapbox/${userCopy.profile_background}`"
+      :src="`https://andrewbilendukecdn.nyc3.digitaloceanspaces.com/resume/soapbox/${userCopy.profile_background}`"
     >
       <v-row align="end">
         <v-col align-self="start" class="pa-0" cols="5">
