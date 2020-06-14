@@ -19,7 +19,7 @@ class ProfileTest extends TestCase
         Mail::fake();
     }
 
-    private function validRegistrationParams($overrides = [])
+    private function validProfileParams($overrides = [])
     {
         return array_merge([
             'email' => 'test@example.com',
@@ -35,9 +35,11 @@ class ProfileTest extends TestCase
      *
      * @return void
      */
-    public function testAUserCanRegister()
+    public function testAUserCanViewTheirProfileInformation()
     {
-        $response = $this->json('post', '/api/register', $this->validRegistrationParams());
+        $user = create(User::class);
+
+        $response = $this->json('get', '/profile/user/{username}', $this->validRegistrationParams());
         
         $response
             ->assertStatus(201)

@@ -11,10 +11,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 50)->create();
+        $endpoint = 'https://source.unsplash.com/random';
+        $client = new \GuzzleHttp\Client();
 
-//            ->each(function ($user) {
-//            $user->posts()->save(factory(App\Post::class)->make());
-//        });
+        factory(App\User::class, 50)->create()->each(function ($user) use($endpoint, $client) {
+            $response = $client->get($endpoint);
+            $image = $response->getBody();
+            $user->storeNewAvatar($image);
+        });
     }
 }
