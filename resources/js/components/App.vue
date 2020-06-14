@@ -36,9 +36,6 @@ export default {
       titleTemplate: `%s · ${appName}`
     }
   },
-  created () {
-    this.$vuetify.theme.dark = true
-  },
   mounted () {
     this.$loading = this.$refs.loading
   },

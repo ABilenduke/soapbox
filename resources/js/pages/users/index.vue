@@ -1,28 +1,27 @@
 <template>
   <v-container fluid v-if="paginatedUsers">
     <v-row dense>
-        <v-col>
-          <UserViewCard
-            v-for="(user, index) in paginatedUsers.data"
-            :key="`user-${index}`"
-            :user="user"
-          />
-          <Pagination
-            :data="paginatedUsers.meta"
-            :isDisabled="isLoading"
-            @pageChange="getResults"
-          />
+        <v-col
+          v-for="(user, index) in paginatedUsers.data"
+          :key="`user-${index}`"
+          :lg="3"
+          :md="6"
+          :sm="12"
+        >
+          <ProfileCard :user="user" />
         </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import ProfileCard from '~/components/base/ProfileCard.vue'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'UsersIndexPage',
+  components: { ProfileCard },
   data: () => ({
     paginatedUsers: null,
     isLoading: false
@@ -34,7 +33,7 @@ export default {
     getResults(page = 1) {
       this.isLoading = true
       axios.get('/api/users?page=' + page)
-          .then(({ data }) => this.paginatedUsers = data)
+          .then(({ data }) => this.paginatedUsers = data.users)
           .finally(() => this.isLoading = false);
     }
   }

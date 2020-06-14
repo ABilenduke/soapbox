@@ -5,7 +5,7 @@
     tag="section"
   >
     <v-app-bar
-      color="blue"
+      color="primary"
       dense
     >
         <v-row>
@@ -19,13 +19,18 @@
               :to="item.to"
               text
             >
-              {{ item.name }}
+              <v-icon>
+                {{ item.icon }}
+              </v-icon>
+              <span class="menu-item-text">
+                {{ item.name }}
+              </span>
             </v-btn>
           </v-col>
         </v-row>
     </v-app-bar>
-    <v-row justify="center">
-      <v-col cols="12">
+    <v-row justify="center" class="pa-0">
+      <v-col cols="12" class="pa-0">
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
@@ -55,18 +60,22 @@ export default {
     this.menuItems = [
       {
         name: this.$t('profile.links.info'),
+        icon: 'mdi-information-outline',
         to: `/profile/${username}/information`
       },
       {
         name: this.$t('profile.links.articles'),
+        icon: 'mdi-book-open-variant',
         to: `/profile/${username}/articles`
       },
       {
         name: this.$t('profile.links.followers'),
+        icon: 'mdi-account-multiple',
         to: `/profile/${username}/followers`
       },
       {
         name: this.$t('profile.links.following'),
+        icon: 'mdi-account-multiple-outline',
         to: `/profile/${username}/following`
       }
     ]
@@ -74,6 +83,7 @@ export default {
     if (this.vxUserIsAuth) {
       this.menuItems.push({
         name: this.$t('profile.links.settings'),
+        icon: 'mdi-cog-outline',
         to: `/profile/${username}/settings`
       })
     }
@@ -85,5 +95,17 @@ export default {
 .menu-item {
   text-align: center;
   cursor: pointer;
+}
+
+.menu-item-text {
+  visibility: hidden;
+  opacity: 0;
+  display: none;
+
+  @media (min-width: 768px) {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+  }
 }
 </style>

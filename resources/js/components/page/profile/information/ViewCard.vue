@@ -1,217 +1,127 @@
 <template>
-  <v-card v-if="userCopy" class="mx-auto ma-4">
-    <v-card-title>
-      <v-btn
-        link
-        :to="`/profile/${userCopy.username}`"
-        text
-      >
-        {{ userCopy.username }}
-      </v-btn>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-card class="mx-auto ma-4">
+          <v-container>
+            <v-row justify="space-between">
+              <v-col cols="auto" class="profile-picture-container">
+                <v-img height="400" width="400" :src="vxUser.avatar" />
+              </v-col>
+              <v-col class="py-0">
+                <v-container class="pa-0">
+                  <v-row>
+                    <v-col>
+                      <h4>
+                        {{ $t('username') }}
+                      </h4>
+                      <h5 class="pl-3">
+                        {{ vxUser.username }}
+                      </h5>
+                    </v-col>
+                  </v-row>
 
-      <v-spacer />
+                  <v-row>
+                    <v-col>
+                      <h4>
+                        {{ $t('name') }}
+                      </h4>
+                      <h5 class="pl-3">
+                        {{ vxUser.name }}
+                      </h5>
+                    </v-col>
+                  </v-row>
 
-      <v-btn
-        v-if="userCopy.is_followed"
-        @click="unFollowUser()"
-        text
-      >
-        <v-icon>mdi-account-minus</v-icon>
-        <span class="button-span">
-          {{ $t('unfollow') }}
-        </span>
-      </v-btn>
+                  <v-row>
+                    <v-col>
+                      <h4>
+                        {{ $t('description') }}
+                      </h4>
+                      <h5 class="pl-3" v-if="vxUser.description">
+                        {{ vxUser.description }}
+                      </h5>
+                      <h5 v-else class="pl-3">
+                        {{ $t('addDescription') }}
+                      </h5>
+                    </v-col>
+                  </v-row>
 
-      <v-btn
-        v-else
-        @click="followUser()"
-        text
-      >
-        <v-icon>mdi-account-plus</v-icon>
-        <span class="button-span">
-          {{ $t('follow') }}
-        </span>
-      </v-btn>
+                  <v-row>
+                    <v-col>
+                      <h4>
+                        {{ $t('hometown') }}
+                      </h4>
+                      <h5 class="pl-3"></h5>
+                    </v-col>
+                  </v-row>
 
-      <v-menu
-        offset-y
-        :close-on-click="closeOnClick"
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon>
-            <v-icon>mdi-dots-horizontal</v-icon>
-          </v-btn>
-        </template>
+                  <v-row>
+                    <v-col>
+                      <h4>
+                        {{ $t('currentLocation') }}
+                      </h4>
+                      <h5 class="pl-3"></h5>
+                    </v-col>
+                  </v-row>
 
-        <v-list>
-          <v-list-item>
-            <v-list-item-action>
-              <v-icon> mdi-alert </v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $t('report') }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-card-title>
-
-    <v-divider></v-divider>
-
-    <v-card-text>
-      <v-container>
-        <v-row justify="space-between">
-          <v-col cols="auto" class="profile-picture-container">
-            <v-img
-              height="200"
-              width="200"
-              :src="userCopy.avatar ? `/storage/${userCopy.avatar}` : '/images/site/default_avatar.jpg'"
-            />
-          </v-col>
-
-          <v-col class="pa-0">
-            <div class="card-content-container">
-              <div class="card-content header">
-                {{ $t('articles') }}
-              </div>
-              <div class="card-content sub-header">
-                {{ userCopy.articles }}
-              </div>
-            </div>
-          </v-col>
-
-          <v-col class="pa-0">
-            <div class="card-content-container">
-              <div class="card-content header">
-                {{ $t('followers') }}
-              </div>
-              <div class="card-content sub-header">
-                {{ userCopy.followers }}
-              </div>
-            </div>
-          </v-col>
-
-          <v-col class="pa-0">
-            <div class="card-content-container">
-              <div class="card-content header">
-                {{ $t('following') }}
-              </div>
-              <div class="card-content sub-header">
-                {{ userCopy.following }}
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card-text>
-  </v-card>
+                  <v-row>
+                    <v-col>
+                      <h4>
+                        {{ $t('joined') }}
+                      </h4>
+                      <h5 class="pl-3">
+                        {{ joinedAt() }}
+                      </h5>
+                      </v-col>
+                  </v-row>
+                </v-container>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import axios from 'axios'
+import { ADD_MESSAGE } from "~/store/mutation-types";
+import { mapGetters } from "vuex";
 import moment from 'moment'
-import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ProfileViewCard',
-  props: {
-    closeOnClick: true,
-    user: {
-      type: Object,
-      required: true
-    }
-  },
-  data:() => ({
-    userCopy: null
-  }),
+  name: "ProfileViewCard",
+  data: () => ({}),
   computed: {
     ...mapGetters({
-      vxIsAuthUser: 'auth/check'
+      vxUser: "profile/user"
     })
   },
-  created() {
-    this.userCopy = this.user
-  },
   methods: {
+    uploadAvatar(image) {
+      this.avatarModalIsOpen = false;
+      this.$store.dispatch("auth/uploadAvatar", image);
+    },
+    resetForm() {
+      this.form.name = "";
+      this.form.email = "";
+      this.$refs.profileEditObserver.reset();
+    },
+    async edit() {
+      // Edit the user.
+      await this.$store
+        .dispatch("auth/editUser", { editForm: this.form })
+        .then(async data => {
+          this.$store.commit(`flash/${ADD_MESSAGE}`, {
+            level: "success",
+            body: this.$t("profile.edit.success"),
+            isAutoRemove: true
+          });
+        });
+    },
     joinedAt() {
-      const joinedMoment = new moment(this.user.created_at).fromNow()
-      return `${this.$t('joined')}: ${joinedMoment}`;
-    },
-    followUser() {
-      if (!this.vxIsAuthUser) {
-        this.$router.push("/register")
-      } else {
-        axios.post(`/api/profile/follow/${this.userCopy.username}`)
-          .then((response) => {
-            this.userCopy.is_followed = true
-            console.log(response)
-          })
-          .catch((error) => {
-            console.error(error)
-          })
-      }
-    },
-    unFollowUser() {
-      if (!this.vxIsAuthUser) {
-        this.$router.push("/register")
-      } else {
-        axios.delete(`/api/profile/follow/${this.userCopy.username}`)
-          .then((response) => {
-            this.userCopy.is_followed = false
-            console.log(response)
-          })
-          .catch((error) => {
-            console.error(error)
-          })
-      }
+      return new moment(this.vxUser.created_at).fromNow()
     }
   }
-}
+};
 </script>
-
-<style lang="scss" scoped>
-  .profile-picture-container {
-    background-color: #f1f2f3;
-    border-radius: 5px;
-  }
-  .button-span {
-    margin-left: 5px;
-  }
-  .card-content-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-
-    border-radius: 10px;
-
-    margin: 0 15px;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-    }
-
-    .card-content {
-      display: flex;
-      justify-content: center;
-      align-content: center;
-      align-items: center;
-
-      padding: 15px;
-
-      &.header {
-        font-weight: 800;
-        font-size: 24px;
-      }
-      &.sub-header {
-        font-size: 22px;
-        font-weight: 600;
-      }
-    }
-  }
-</style>

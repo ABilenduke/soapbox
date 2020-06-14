@@ -10,25 +10,18 @@
 
     <v-app-bar
       app
+      color="primary"
       clipped-left
-      color="blue"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title class="mr-12 align-center">
-        <v-btn
-          link
-          :to="{ name: 'home' }"
-          text
-        >
-          <v-icon
-            class="mx-0"
-            large
-          >
-            mdi-microphone
-          </v-icon>
-          <span class="title">Soapbox</span>
-        </v-btn>
+        <v-img
+          src="/images/site/logo.png"
+          :height="45"
+          alt="site logo"
+          contain
+        />
       </v-toolbar-title>
 
       <v-spacer />
@@ -47,7 +40,7 @@
               tile
             >
               <img
-                :src="vxUser.avatar ? `/storage/${vxUser.avatar}` : '/images/site/default_avatar.jpg'"
+                :src="vxUser.avatar"
                 alt="user-avatar"
               >
             </v-avatar>
@@ -90,7 +83,7 @@
         <v-btn
           color="green"
           link
-          :to="{ name: 'register' }"ADD_MESSAGE
+          :to="{ name: 'register' }"
         >
           {{ $t('register.title') }}
         </v-btn>

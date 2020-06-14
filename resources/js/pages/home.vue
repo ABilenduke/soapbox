@@ -21,12 +21,10 @@ export default {
     await axios
       .get(`/api/articles`)
       .then(({ data }) => {
-        console.log({ data })
         this.articlesMeta = data.articles;
         this.articles = data.articles.data;
       })
       .catch((error) => {
-        console.log(error)
         this.$store.commit(`flash/${ADD_MESSAGE}`, {
           level: "warning",
           body: this.$t("articlesNotFound"),

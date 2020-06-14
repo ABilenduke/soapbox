@@ -1,9 +1,9 @@
 <template>
-  <v-container v-if="vxUser">
+  <v-container v-if="vxUser" class="py-0">
     <v-row>
-      <v-col>
+      <v-col class="pa-0">
         <v-btn v-if="vxUserIsAuth" @click="toggleEditing()">
-          Edit
+          {{ $t('edit') }}
         </v-btn>
         <component :is="selectedComponent" :user="vxUser" />
       </v-col>

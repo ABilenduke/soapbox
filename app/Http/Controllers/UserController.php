@@ -21,7 +21,7 @@ class UserController extends Controller
             $users = User::paginate(15);
         }
 
-        return new UserCollection($users);
+        return response()->json(['users' => $users], 200);
     }
 
     public function show()

@@ -1,18 +1,11 @@
 <?php
 
 return [
-    'administrators' => [
-        'andrewbilenduke@gmail.com'
-    ],
-
     'reputation' => [
-        'article_published' => 10,
-        'comment_posted' => 2,
-        'best_comment_awarded' => 50,
-        'comment_favorited' => 5
+        'article_published' => 15,
+        'article_liked' => 2,
+        'comment_posted' => 1,
+        'comment_highlighted' => 5,
+        'comment_liked' => 2
     ],
-
-    'pagination' => [
-        'perPage' => 15
-    ]
 ];

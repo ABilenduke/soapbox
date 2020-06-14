@@ -24,6 +24,13 @@ class EventServiceProvider extends ServiceProvider
         'Laravel\Passport\Events\RefreshTokenCreated' => [
             'App\Listeners\PruneOldTokens',
         ],
+
+        \App\Events\ArticleWasPublished::class => [
+            \App\Listeners\NotifyFollwers::class
+        ],
+        \App\Events\CommentWasPosted::class => [
+            \App\Listeners\NotifyMentionedUsers::class
+        ],
     ];
 
     /**

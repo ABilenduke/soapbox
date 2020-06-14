@@ -9,6 +9,10 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return response()->json(['categories' => Category::all()]);
+        return response()->json([
+            cache()->rememberForever('categories', function () {
+                return Category::all();
+            })
+        ]);
     }
 }

@@ -43,7 +43,8 @@ trait RecordsActivity
     {
         $this->activity()->create([
             'user_id' => auth()->id(),
-            'type' => $this->getActivityType($event)
+            'type' => $this->getActivityType($event),
+            'ip_address' => \Request::ip()
         ]);
     }
 

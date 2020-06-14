@@ -45,6 +45,10 @@
   "publishArticle": "Publish Article",
   "articlePublished": "The article was published successfully.",
   "articleNotPublished": "The article was not published successfully.",
+  "replyContainsSpam": "Your reply contains spam.",
+  "block": "Block",
+  "locale": "Locale",
+  "darkMode": "Dark Mode",
   "create": {
     "title": "Create",
     "index": {
@@ -101,5 +105,19 @@
     "edit": {
       "success": "Your profile has been updated successfully."
     }
+  },
+  "categories": {
+    "animals": "Animals",
+    "art": "Art",
+    "culture": "Culture",
+    "current_events": "Current Events",
+    "health": "Health",
+    "history": "History",
+    "how_to": "How To",
+    "humour": "Humour",
+    "music": "Music",
+    "nature": "Nature",
+    "science": "Science",
+    "sports": "Sports"
   }
 }

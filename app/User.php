@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable, SoftDeletes, Traits\UsesUuid;
+    use Notifiable,
+        SoftDeletes,
+        Traits\UsesUuid;
 
     /**
      * The attributes that are mass assignable.
@@ -27,8 +29,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'username',
         'email',
         'password',
-        'confirmation_token',
-        'confirmation_token_expiry'
+        'profile_background',
+        'description'
     ];
 
     /**
@@ -40,9 +42,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'id',
         'is_admin',
         'password',
-        'remember_token',
-        'confirmation_token',
-        'confirmation_token_expiry'
+        'remember_token'
     ];
 
     protected $appends = [
@@ -61,7 +61,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'confirmation_token_expiry' => 'datetime',
         'is_admin' => 'boolean',
     ];
 
@@ -71,15 +70,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getIdentifierAttribute()
     {
         return md5($this->id . $this->created_at);
-    }
-
-    /**
-     * Get the user that created the article.
-     */
-    public function getAvatarAttribute()
-    {
-        $avatar = $this->avatars()->where('is_primary', true)->first();
-        return $avatar ? $avatar->path: null;
     }
 
     /**
@@ -226,5 +216,61 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getFollowingCountAttribute()
     {
         return $this->following()->count();
+    }
+
+    /**
+     * Record that the user has read the given thread.
+     *
+     * @param Thread $thread
+     */
+    public function read($thread)
+    {
+        cache()->forever(
+            $this->visitedThreadCacheKey($thread),
+            Carbon::now()
+        );
+    }
+
+    /**
+     * Get the path to the user's avatar.
+     *
+     * @param  string $avatar
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        $avatar = $this->avatars()->where('is_primary', true)->first();
+        return asset($avatar ? "/storage/$avatar->path" : '/images/site/default_avatar.jpg');
+    }
+
+    /**
+     * Get the cache key for when a user reads a thread.
+     *
+     * @param  Thread $thread
+     * @return string
+     */
+    public function visitedThreadCacheKey($thread)
+    {
+        return sprintf('users.%s.visits.%s', $this->id, $thread->id);
+    }
+
+    /**
+     * Award reputation points to the model.
+     *
+     * @param  string $action
+     */
+    public function gainReputation($action)
+    {
+        $this->increment('reputation', config("soapbox.reputation.{$action}"));
+    }
+
+    /**
+     * Reduce reputation points for the model.
+     *
+     * @param  string $action
+     */
+    public function loseReputation($action)
+    {
+        $this->decrement('reputation', config("soapbox.reputation.{$action}"));
     }
 }

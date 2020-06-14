@@ -2,7 +2,6 @@ import Vue from 'vue'
 import InfiniteScroll from './base/InfiniteScroll.vue'
 import Modal from './base/Modal.vue'
 import ImageCropper from './base/ImageCropper.vue'
-import UserViewCard from './page/profile/information/ViewCard.vue'
 
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
@@ -19,10 +18,6 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
   {
     name: 'ImageCropper',
     comp: ImageCropper
-  },
-  {
-    name: 'UserViewCard',
-    comp: UserViewCard
   },
   {
     name: 'ValidationObserver',

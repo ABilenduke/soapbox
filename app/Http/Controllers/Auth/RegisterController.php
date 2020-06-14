@@ -74,9 +74,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'confirmation_token' => Str::uuid(),
-            'confirmation_token_expiry' => Carbon::now()->addDays(5),
+            'password' => Hash::make($data['password'])
         ]);
     }
 

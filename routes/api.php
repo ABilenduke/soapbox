@@ -28,6 +28,8 @@ Route::get('articles', 'ArticleController@index');
 Route::get('article/{id}', 'ArticleController@show');
 Route::get('article/{id}/content', 'ArticleContentController@index');
 
+Route::get('topcontributors', 'TopContributorsController@index');
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('/user', 'UserController@show');

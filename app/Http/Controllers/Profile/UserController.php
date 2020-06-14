@@ -13,7 +13,7 @@ class UserController extends Controller
         $user = User::where('username', $username)->first();
 
         if ($user) {
-            return response()->json(['user' => new UserResource($user)], 200);
+            return response()->json(['user' => $user], 200);
         }
 
         return response()->json(['message' => 'user_not_found'], 400);

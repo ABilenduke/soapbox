@@ -76,6 +76,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./database/scripts/:/scripts
       - dbdata:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
