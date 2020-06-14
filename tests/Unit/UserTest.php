@@ -33,4 +33,16 @@ class UserTest extends TestCase
 
         $this->assertEquals(asset('avatars/me.jpg'), $user->avatar_path);
     }
+
+    /** @test */
+    public function testAUserHasADefualtAvatarIfTheyHaveNotUploadedTheirOwn()
+    {
+        $user = create(User::class);
+
+        $this->assertEquals(asset('images/avatars/default.svg'), $user->avatar_path);
+
+        $user->avatar_path = 'avatars/me.jpg';
+
+        $this->assertEquals(asset('avatars/me.jpg'), $user->avatar_path);
+    }
 }
