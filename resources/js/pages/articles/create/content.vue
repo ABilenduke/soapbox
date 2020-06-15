@@ -142,7 +142,7 @@
     },
     methods: {
       contentHasUpdated(content, contentId) {
-        axios.patch(`/api/article/content/${contentId}`, {
+        axios.put(`/api/article/content/${contentId}`, {
           content: content
         })
         .then(({ data }) => {

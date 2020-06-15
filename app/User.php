@@ -281,7 +281,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $avatarName = substr(md5(Carbon::now()->getTimestamp()), 0, 25);
         $avatarPath = "images/avatars/$this->identifier/$avatarName.jpg";
         
-        \Storage::put("public/" . $avatarPath, $avatar);
+        \Storage::disk('public')->put($avatarPath, $avatar, 'public');
 
         $this->avatars()
             ->where('is_primary', true)

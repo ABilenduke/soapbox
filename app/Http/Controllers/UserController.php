@@ -18,7 +18,7 @@ class UserController extends Controller
         if ($auth = request()->user()) {
             $users = User::where('id', '<>', $auth->id)->paginate(15);
         } else {
-            $users = User::paginate(15);
+            $users = User::paginate(16);
         }
 
         return response()->json(['users' => $users], 200);

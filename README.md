@@ -48,4 +48,5 @@ Follow the steps below to run the site locally.
 - `docker-compose exec php_fpm_app php artisan soapbox:addCategories`
 
 #### Running tests
-- `docker-compose exec php_fpm_app php vendor/bin/phpunit`
+- All: `docker-compose exec php_fpm_app php vendor/bin/phpunit`
+- Individual: `docker-compose exec php_fpm_app php vendor/bin/phpunit --filter test_name`

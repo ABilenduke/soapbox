@@ -33,10 +33,7 @@ Route::get('topcontributors', 'TopContributorsController@index');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::get('/user', 'UserController@show');
-    Route::patch('/user', 'UserController@update');
-
-    Route::patch('settings/profile', 'Settings\ProfileController@update');
-    Route::patch('settings/password', 'Settings\PasswordController@update');
+    Route::put('/user', 'UserController@update');
 
     Route::post('profile/avatar', 'Profile\AvatarController@store');
 
@@ -51,7 +48,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('article/{id}/publish', 'ArticleController@publish');
 
     Route::post('article/{id}/content', 'ArticleContentController@create');
-    Route::patch('article/content/{id}', 'ArticleContentController@update');
+    Route::put('article/content/{id}', 'ArticleContentController@update');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
@@ -63,7 +60,4 @@ Route::group(['middleware' => 'guest:api'], function () {
 
     Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend');
-
-    Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
-    Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 });

@@ -104,7 +104,7 @@ export const actions = {
 
   editUser({ commit }, { editForm }) {
     return new Promise((resolve, reject) => {
-      axios.patch('/api/user', editForm)
+      axios.put('/api/user', editForm)
       .then(({ data }) => {
         resolve(data)
       })
