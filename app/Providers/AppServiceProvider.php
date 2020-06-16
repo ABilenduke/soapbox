@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // \Validator::extend('spamfree', 'App\Rules\SpamFree@passes');
+        //
     }
 
     /**
@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Validator::extend('spamfree', 'App\Rules\SpamFree@passes');
+        \Validator::extend('allowedprofileimage', 'App\Rules\AllowedProfileImage@passes');
     }
 }

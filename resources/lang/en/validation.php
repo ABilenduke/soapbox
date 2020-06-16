@@ -135,6 +135,9 @@ return [
         ],
     ],
 
+    'spamfree' => 'The :attribute contains spam.',
+    'allowedprofileimage' => 'The profile background image is invalid.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
