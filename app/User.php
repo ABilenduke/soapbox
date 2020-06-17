@@ -40,7 +40,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'id',
         'is_admin',
         'password',
         'remember_token'
@@ -52,7 +51,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'articlesCount',
         'followerCount',
         'followingCount',
-        'isFollowed'
+        'isFollowed',
+        'settings',
     ];
 
     /**
@@ -81,6 +81,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getRouteKeyName()
     {
         return 'username';
+    }
+
+    /**
+     * Get the users settings.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function settings()
+    {
+        return $this->hasOne('App\UserSettings', 'user_id', 'id');
     }
 
     /**
@@ -207,6 +217,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         }
 
         return !!$this->followers()->where('follower_id', request()->user()->id)->count();
+    }
+
+    public function getSettingsAttribute()
+    {
+        return $this->settings()->first();
     }
 
     public function getIsFollowedAttribute()

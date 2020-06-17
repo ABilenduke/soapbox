@@ -44,7 +44,7 @@
     </v-list-item>
     <v-list-item class="mt-1">
       <v-list-item-action>
-        <v-switch v-model="$vuetify.theme.dark" class="mx-2"></v-switch>
+        <v-switch v-model="darkMode" class="mx-2"></v-switch>
       </v-list-item-action>
       <v-list-item-title class="grey--text text--darken-1">{{ $t('darkMode') }}</v-list-item-title>
     </v-list-item>
@@ -53,15 +53,29 @@
 
 <script>
 import axios from "axios";
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "MenuContent",
   data: () => ({
     items: null,
     topContributors: null,
-    vxDarkMode: null,
-    locales: ["en", "fr"]
+    locales: ["en", "fr"],
+    darkMode: false
   }),
+  computed: {
+    ...mapGetters({
+      vxSettings: 'auth/settings'
+    }),
+  },
+  watch: {
+    darkMode(newValue) {
+      this.$vuetify.theme.dark = newValue
+      if (this.vxSettings) {
+        this.vxToggleDarkMode(newValue)
+      }
+    }
+  },
   async created() {
     await axios
       .get("/api/topcontributors")
@@ -76,6 +90,14 @@ export default {
       { icon: "mdi-bookmark", text: "saved", to: "articles.saved" },
       { icon: "mdi-pencil", text: "create.title", to: "articles.create.index" }
     ];
+    if (this.vxSettings) {
+      this.darkMode = this.vxSettings.dark_mode
+    }
+  },
+  methods: {
+    ...mapActions({
+      vxToggleDarkMode: 'auth/toggleDarkMode'
+    })
   }
 };
 </script>

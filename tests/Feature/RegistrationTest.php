@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\UserSettings;
 use App\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -42,6 +43,7 @@ class AuthenticationTest extends TestCase
             ->assertJson([ 'status' => 'We have e-mailed your verification link!' ]);
 
         $this->assertCount(1, User::all());
+        $this->assertCount(1, UserSettings::all());
 
         tap(
             User::first(),

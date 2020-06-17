@@ -38,8 +38,18 @@ Route::get('topcontributors', 'TopContributorsController@index');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
-    Route::get('/user', 'UserController@show');
-    Route::put('/user', 'UserController@update');
+
+    Route::group([
+        'prefix' => 'user',
+        'namespace' => 'User'
+    ], function () {
+        Route::get('/', 'IndexController@show');
+        Route::put('/', 'IndexController@update');
+
+        Route::get('/settings', 'SettingsController@index');
+        Route::get('/settings/{setting}', 'SettingsController@show');
+        Route::put('/settings', 'SettingsController@update');
+    });
 
     Route::post('profile/avatar', 'Profile\AvatarController@store');
 
