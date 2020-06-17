@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\OAuthProvider;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
@@ -73,13 +74,23 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    /**
      * Get all activity for the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function activity()
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasMany('App\Activity');
     }
 
     public function avatars()
@@ -272,5 +283,26 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function loseReputation($action)
     {
         $this->decrement('reputation', config("soapbox.reputation.{$action}"));
+    }
+
+    public function storeNewAvatar($image) {
+ 
+        $avatar = \Image::make($image)->resize(600, 600)->encode('jpg');
+        $avatarName = substr(md5(Carbon::now()->getTimestamp()), 0, 25);
+        $avatarPath = "images/avatars/$this->identifier/$avatarName.jpg";
+        
+        \Storage::disk('public')->put($avatarPath, $avatar, 'public');
+
+        $this->avatars()
+            ->where('is_primary', true)
+            ->update(['is_primary' => false]);
+
+        Avatar::create([
+            'user_id' => $this->id,
+            'path' => $avatarPath,
+            'is_primary' => true
+        ]);
+
+        return $avatarPath;
     }
 }

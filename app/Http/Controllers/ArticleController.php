@@ -70,8 +70,8 @@ class ArticleController extends Controller
         $image = \Image::make(request()->coverImage)->encode('jpg');
         $imageName = substr(md5(Carbon::now()->getTimestamp()), 0, 25);
         $imagePath = "images/articles/$articleIdentifier/$imageName.jpg";
-        
-        \Storage::put("public/" . $imagePath, $image);
+
+        \Storage::disk('public')->put($imagePath, $image, 'public');
 
         ArticleImage::create([
             'article_id' => $article->id,

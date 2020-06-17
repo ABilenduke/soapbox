@@ -9,9 +9,7 @@ use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
-    public function show($username) {
-        $user = User::where('username', $username)->first();
-
+    public function show(User $user) {
         if ($user) {
             return response()->json(['user' => $user], 200);
         }

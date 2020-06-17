@@ -43,9 +43,12 @@ Follow the steps below to run the site locally.
 - `docker-compose exec php_fpm_app php artisan migrate`
 - `docker-compose exec php_fpm_app php artisan db:seed`
 - `docker-compose exec php_fpm_app php artisan storage:link`
+- `docker-compose exec php_fpm_app php artisan config:clear`
 
 #### Add categories using the custom command
 - `docker-compose exec php_fpm_app php artisan soapbox:addCategories`
 
 #### Running tests
-- `docker-compose exec php_fpm_app php vendor/bin/phpunit`
+*** NOTE: There is an ongoing issue at the moment. In order for the JWT to work you must cache the config. Doing this also cahes the env file. When you test it will only use the local DB and not the test DB, this will clear the DB after each test. Without doing caching the configs then two of the the auth tests fail. ***
+- All: `docker-compose exec php_fpm_app php vendor/bin/phpunit`
+- Individual: `docker-compose exec php_fpm_app php vendor/bin/phpunit --filter test_name`

@@ -16,10 +16,12 @@ class AuthenticationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
         Mail::fake();
+        Mail::assertNothingSent();
     }
 
-    private function validRegistrationParams($overrides = [])
+    private function registrationParams($overrides = [])
     {
         return array_merge([
             'email' => 'test@example.com',
@@ -30,17 +32,13 @@ class AuthenticationTest extends TestCase
         ], $overrides);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testAUserCanRegister()
+    /** @test */
+    public function a_user_can_register()
     {
-        $response = $this->json('post', '/api/register', $this->validRegistrationParams());
+        $response = $this->json('post', '/api/register', $this->registrationParams());
         
         $response
-            ->assertStatus(201)
+            ->assertSuccessful()
             ->assertJson([ 'status' => 'We have e-mailed your verification link!' ]);
 
         $this->assertCount(1, User::all());
@@ -56,14 +54,10 @@ class AuthenticationTest extends TestCase
         );
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testAUserCannotRegisterWithAnExistingEmailOrUsername()
+    /** @test */
+    public function a_user_cannot_register_with_an_existing_email_or_username()
     {
-        $existingUser = $this->validRegistrationParams();
+        $existingUser = $this->registrationParams();
 
         $user = create(User::class, [
             'email' => $existingUser['email'],
@@ -75,32 +69,5 @@ class AuthenticationTest extends TestCase
         $this->json('post', '/api/register', $existingUser)
             ->assertStatus(422)
             ->assertJsonValidationErrors(['email', 'username']);
-    }
-
-    // public function testAUserCanResetTheirPassword()
-    // {
-    //     $response = $this->post('/api/account/');
-
-    //     $response->assertStatus(200);
-    // }
-
-    public function testAUserCanLogin()
-    {
-        $user = create(User::class);
-        $response = $this->json(
-            'POST',
-            '/api/login',
-            [
-                "email" => $user->email,
-                "password" => 'password'
-            ]
-        );
-        $response->assertStatus(200);
-    }
-
-    public function testAUserCanLogout()
-    {
-        $response = $this->get('/api/logout');
-        $response->assertStatus(200);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Profile;
 use App\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 
 class AvatarController extends Controller
 {
@@ -37,23 +36,7 @@ class AvatarController extends Controller
      */
     public function store(Request $request)
     {
-        $userIdentifier = request()->user()->identifier;
-        $avatar = \Image::make($request->avatar)->resize(600, 600)->encode('jpg');
-        $avatarName = substr(md5(Carbon::now()->getTimestamp()), 0, 25);
-        $avatarPath = "images/avatars/$userIdentifier/$avatarName.jpg";
-        
-        \Storage::put("public/" . $avatarPath, $avatar);
-
-        request()->user()
-            ->avatars()
-            ->where('is_primary', true)
-            ->update(['is_primary' => false]);
-
-        Avatar::create([
-            'user_id' => request()->user()->id,
-            'path' => $avatarPath,
-            'is_primary' => true
-        ]);
+        $avatarPath = request()->user()->storeNewAvatar($request->avatar);
 
         return response()->json([
             'message' => 'uploaded successfully',

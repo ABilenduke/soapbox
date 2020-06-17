@@ -20,9 +20,8 @@ class FollowController extends Controller
         $this->middleware('auth:api')->except(['following', 'followers']);
     }
 
-    public function create($username) {
+    public function create(User $user) {
         $authUser = request()->user();
-        $user = User::where('username', $username)->first();
 
         $attributes = ['following_id' => $user->id];
 
@@ -35,9 +34,8 @@ class FollowController extends Controller
         return response()->json(['message' => 'user_followed'], 200);
     }
 
-    public function delete($username) {
+    public function delete(User $user) {
         $authUser = request()->user();
-        $user = User::where('username', $username)->first();
 
         $attributes = ['following_id' => $user->id];
 
@@ -57,9 +55,7 @@ class FollowController extends Controller
         return response()->json(['message' => 'user_un_followed'], 200);
     }
 
-    public function following($username) {
-        $user = User::where('username', $username)->first();
-
+    public function following(User $user) {
         if ($user) {
             $following = $user->following()->paginate(15);
             return new UserCollection($following);
@@ -68,9 +64,7 @@ class FollowController extends Controller
         return response()->json(['error' => 'user_not_found'], 400);
     }
 
-    public function followers($username) {
-        $user = User::where('username', $username)->first();
-
+    public function followers(User $user) {
         if ($user) {
             $users = $user->followers()->paginate(15);
             return new UserCollection($users);
