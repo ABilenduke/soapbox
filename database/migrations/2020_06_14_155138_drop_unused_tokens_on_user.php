@@ -15,7 +15,6 @@ class DropUnusedTokensOnUser extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('confirmation_token');
-            $table->dropColumn('confirmation_token_expiry');
         });
     }
 
@@ -28,7 +27,6 @@ class DropUnusedTokensOnUser extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('confirmation_token', 255)->nullable()->unique();
-            $table->dateTime('confirmation_token_expiry')->nullable();
         });
     }
 }

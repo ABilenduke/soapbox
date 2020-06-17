@@ -14,13 +14,19 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/users', 'UserController@index');
-Route::get('/profile/user/{username}', 'Profile\UserController@show');
 
 Route::get('/auth/check/email/{email}', 'Auth\CheckUserFieldAvailabilityController@email');
 Route::get('/auth/check/username/{username}', 'Auth\CheckUserFieldAvailabilityController@username');
 
-Route::get('profile/following/{username}', 'Profile\FollowController@following');
-Route::get('profile/followers/{username}', 'Profile\FollowController@followers');
+Route::group([
+    'prefix' => 'profile',
+    'namespace' => 'Profile'
+], function () {
+    Route::get('user/{user}', 'UserController@show');
+    Route::get('following/{user}', 'FollowController@following');
+    Route::get('followers/{user}', 'FollowController@followers');
+    Route::get('activity/{user}', 'ActivityController@index');
+});
 
 Route::get('categories', 'CategoryController@index');
 
@@ -37,8 +43,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('profile/avatar', 'Profile\AvatarController@store');
 
-    Route::post('profile/follow/{username}', 'Profile\FollowController@create');
-    Route::delete('profile/follow/{username}', 'Profile\FollowController@delete');
+    Route::post('profile/follow/{user}', 'Profile\FollowController@create');
+    Route::delete('profile/follow/{user}', 'Profile\FollowController@delete');
 
     Route::get('user/articles/drafts', 'User\ArticleController@drafts');
     Route::get('user/articles/published', 'User\ArticleController@published');

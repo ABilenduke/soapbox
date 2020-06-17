@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-    use Traits\UsesUuid;
+    use SoftDeletes, Traits\UsesUuid;
 
     /**
      * Don't auto-apply mass assignment protection.

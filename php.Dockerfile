@@ -25,8 +25,15 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath
 RUN docker-php-ext-enable pdo_mysql
 
+# install sqlite and enable it if the development environment is local
+RUN if [ "$APPLICATION_ENVIRONMENT" = "local" ] ; then \
+  apt-get install -y sqlite3 libsqlite3-dev && \
+  docker-php-ext-install pdo_sqlite && \
+  docker-php-ext-enable pdo_sqlite \
+;fi
+
 # install xdebug and enable it if the development environment is local
-RUN if [ "$APPLICATION_ENVIRONMENT" = "local" ] ; then \ 
+RUN if [ "$APPLICATION_ENVIRONMENT" = "local" ] ; then \
   pecl install xdebug \
   && docker-php-ext-enable xdebug \
 ;fi

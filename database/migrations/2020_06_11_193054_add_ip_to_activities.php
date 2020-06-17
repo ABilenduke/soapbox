@@ -14,7 +14,7 @@ class AddIpToActivities extends Migration
     public function up()
     {
         Schema::table('activities', function (Blueprint $table) {
-            $table->ipAddress('ip_address');
+            $table->ipAddress('ip_address')->nullable();
         });
     }
 

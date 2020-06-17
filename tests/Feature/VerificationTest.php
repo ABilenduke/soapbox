@@ -10,9 +10,12 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class VerificationTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,7 +29,7 @@ class VerificationTest extends TestCase
     public function can_verify_email()
     {
         $user = create(User::class, ['email_verified_at' => null]);
-        $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(60), ['user' => $user->id]);
+        $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(60), ['user' => $user->username]);
 
         Event::fake();
 
@@ -43,7 +46,7 @@ class VerificationTest extends TestCase
     public function can_not_verify_if_already_verified()
     {
         $user = create(User::class);
-        $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(60), ['user' => $user->id]);
+        $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(60), ['user' => $user->username]);
 
         $this->postJson($url)
             ->assertStatus(400)
@@ -55,7 +58,7 @@ class VerificationTest extends TestCase
     {
         $user = create(User::class, ['email_verified_at' => null]);
 
-        $this->postJson("/api/email/verify/{$user->id}")
+        $this->postJson("/api/email/verify/{$user->username}")
             ->assertStatus(400)
             ->assertJsonFragment(['status' => 'The verification link is invalid.']);
     }

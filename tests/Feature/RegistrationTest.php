@@ -13,6 +13,14 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Mail::fake();
+        Mail::assertNothingSent();
+    }
+
     private function registrationParams($overrides = [])
     {
         return array_merge([

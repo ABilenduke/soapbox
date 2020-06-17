@@ -74,13 +74,23 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     /**
+     * Get the route key name for Laravel.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    /**
      * Get all activity for the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function activity()
     {
-        return $this->hasMany(Activity::class);
+        return $this->hasMany('App\Activity');
     }
 
     public function avatars()
