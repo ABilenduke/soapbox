@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import * as types from '../mutation-types'
+import Vue from 'vue';
 
 // state
 export const state = () => ({
@@ -12,7 +13,8 @@ export const state = () => ({
 export const getters = {
   user: state => state.user,
   token: state => state.token,
-  check: state => state.user !== null
+  check: state => state.user !== null,
+  settings: state => state.user ? state.user.settings : null
 }
 
 // mutations
@@ -24,6 +26,7 @@ export const mutations = {
 
   [types.FETCH_USER_SUCCESS] (state, { user }) {
     state.user = user
+    //Vue.prototype.$vuetify.theme.dark = user?.settings?.dark_mode
   },
 
   [types.FETCH_USER_FAILURE] (state) {
@@ -44,7 +47,7 @@ export const mutations = {
 
   [types.UPDATE_USER_AVATAR] (state, path) {
     state.user.avatar = path
-  }
+  },
 }
 
 // actions
@@ -53,7 +56,7 @@ export const actions = {
     commit(types.SAVE_TOKEN, payload)
   },
 
-  fetchUser ({ commit }) {
+  fetchUser ({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
       axios.get('/api/user')
       .then(({ data }) => {
@@ -169,7 +172,22 @@ export const actions = {
         resolve()
       })
       .catch(() => {
+        reject()
+      })
+    })
+  },
+
+  toggleDarkMode({ commit, state }, value) {
+    return new Promise((resolve, reject) => {
+      const newDarkMode = value
+      axios.put('/api/user/settings', {
+        dark_mode: newDarkMode
+      })
+      .then(({ data }) => {
         resolve()
+      })
+      .catch(() => {
+        reject()
       })
     })
   }
