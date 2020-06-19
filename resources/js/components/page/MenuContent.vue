@@ -39,43 +39,21 @@
 
     <v-spacer />
 
-    <v-list-item>
-      <v-select :items="locales" :label="$t('locale')" flat dense solo />
-    </v-list-item>
-    <v-list-item class="mt-1">
-      <v-list-item-action>
-        <v-switch v-model="darkMode" class="mx-2"></v-switch>
-      </v-list-item-action>
-      <v-list-item-title class="grey--text text--darken-1">{{ $t('darkMode') }}</v-list-item-title>
-    </v-list-item>
+    <LocaleDropdown />
+    <DarkModeSwitch />
+    
   </v-list>
 </template>
 
 <script>
-import axios from "axios";
-import { mapGetters, mapActions } from 'vuex'
+import axios from "axios"
 
 export default {
   name: "MenuContent",
   data: () => ({
     items: null,
-    topContributors: null,
-    locales: ["en", "fr"],
-    darkMode: false
+    topContributors: null
   }),
-  computed: {
-    ...mapGetters({
-      vxSettings: 'auth/settings'
-    }),
-  },
-  watch: {
-    darkMode(newValue) {
-      this.$vuetify.theme.dark = newValue
-      if (this.vxSettings) {
-        this.vxToggleDarkMode(newValue)
-      }
-    }
-  },
   async created() {
     await axios
       .get("/api/topcontributors")
@@ -89,15 +67,7 @@ export default {
       { icon: "mdi-history", text: "history", to: "articles.history" },
       { icon: "mdi-bookmark", text: "saved", to: "articles.saved" },
       { icon: "mdi-pencil", text: "create.title", to: "articles.create.index" }
-    ];
-    if (this.vxSettings) {
-      this.darkMode = this.vxSettings.dark_mode
-    }
-  },
-  methods: {
-    ...mapActions({
-      vxToggleDarkMode: 'auth/toggleDarkMode'
-    })
+    ]
   }
 };
 </script>
