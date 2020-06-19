@@ -1,3 +1,123 @@
 {
-  "about": "About"
+  "articles": "le Articles",
+  "followers": "le Followers",
+  "following": "le Following",
+  "follow": "le Follow",
+  "unfollow": "le Unfollow",
+  "joined": "le Joined",
+  "submit": "le Submit",
+  "reset": "le Reset",
+  "name": "le Name",
+  "username": "le Username",
+  "email": "le Email",
+  "password": "le Password",
+  "password_confirmation": "Password Confirmation",
+  "remember_me": "Remember me?",
+  "page_not_found": "Page Not Found",
+  "about": "About",
+  "top_contributors": "Top Contributors",
+  "home": "Home",
+  "logout": "Logout",
+  "settings": "Settings",
+  "users": "Users",
+  "subscriptions": "Subscriptions",
+  "history": "History",
+  "saved": "Saved",
+  "category": "Category",
+  "description": "Description",
+  "coverImage": "Cover Image",
+  "addCoverImage": "Add a cover image",
+  "selectImage": "Select an image",
+  "image": "Image",
+  "zoomIn": "Zoom In",
+  "zoomOut": "Zoom Out",
+  "crop": "Crop",
+  "articleNotFound": "The article was not found",
+  "articleNotCreated": "The article was not created. Try again later.",
+  "drafts": "Drafts",
+  "noDrafts": "You do not have any drafts created at this time. Create a new article by clicking the create button above.",
+  "articleContentNotFound": "The article content was not found.",
+  "articleContentDidNotSave": "The article content did not save. Try again.",
+  "articleContentSaved": "The article content has saved successfully.",
+  "articleContentSectionAdded": "The article content section was added successfully.",
+  "articleContentSectionWasNotAdded": "The article content section was not added successfully.",
+  "addContent": "Add Content",
+  "publishArticle": "Publish Article",
+  "articlePublished": "The article was published successfully.",
+  "articleNotPublished": "The article was not published successfully.",
+  "replyContainsSpam": "Your reply contains spam.",
+  "block": "Block",
+  "locale": "Locale",
+  "darkMode": "Dark Mode",
+  "create": {
+    "title": "Create",
+    "index": {
+      "title": "Create your own articles"
+    },
+    "new": {
+      "title": "Create a new article"
+    }
+  },
+  "report": "Report",
+  "title": "Title",
+  "subtitle": "Subtitle",
+  "emailPassword": {
+    "title": "Send Password Reset Email",
+    "error": "Something went wrong, try agin later."
+  },
+  "resetPassword": {
+    "title": "Reset your password",
+    "error": "Something went wrong, try agin later."
+  },
+  "resend": {
+    "title": "Resend Email Verification",
+    "error": "Something went wrong, try agin later."
+  },
+  "login": {
+    "title": "Login",
+    "messages": {
+      "success": "You have logged in successfully.",
+      "failure": "Something went wrong, you were not logged in, try again."
+    },
+    "resetPassword": "Forgot your password? Reset it here."
+  },
+  "register": {
+    "title": "Register",
+    "messages": {
+      "verify": "You have signed up successfully, now you must verify your email address. Check your emails and follow the link provided."
+    }
+  },
+  "verification": {
+    "title": "Email Verification",
+    "success": "Your email was verified successfully.",
+    "failed": "Your email was not verified, try again.",
+    "resend": "Resend verification email"
+  },
+  "profile" : {
+    "title": "Profile",
+    "links": {
+      "info": "Information",
+      "articles": "Articles",
+      "followers": "Followers",
+      "following": "Following",
+      "settings": "Settings"
+    },
+    "edit": {
+      "success": "Your profile has been updated successfully."
+    }
+  },
+  "categories": {
+    "animals": "Animals",
+    "art": "Art",
+    "culture": "Culture",
+    "current_events": "Current Events",
+    "health": "Health",
+    "history": "History",
+    "how_to": "How To",
+    "humour": "Humour",
+    "music": "Music",
+    "nature": "Nature",
+    "science": "Science",
+    "sports": "Sports"
+  }
 }

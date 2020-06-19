@@ -6,7 +6,8 @@ import Vue from 'vue';
 // state
 export const state = () => ({
   user: null,
-  token: Cookies.get('token')
+  token: Cookies.get('token'),
+  darkMode: Cookies.get('dark_mode') || null,
 })
 
 // getters
@@ -14,7 +15,7 @@ export const getters = {
   user: state => state.user,
   token: state => state.token,
   check: state => state.user !== null,
-  settings: state => state.user ? state.user.settings : null
+  darkMode: state => state.darkMode ? state.darkMode : state?.user?.settings?.dark_mode
 }
 
 // mutations
@@ -177,18 +178,22 @@ export const actions = {
     })
   },
 
-  toggleDarkMode({ commit, state }, value) {
+  toggleDarkMode({ commit, getters }, value) {
     return new Promise((resolve, reject) => {
       const newDarkMode = value
-      axios.put('/api/user/settings', {
-        dark_mode: newDarkMode
-      })
-      .then(({ data }) => {
-        resolve()
-      })
-      .catch(() => {
-        reject()
-      })
+      Cookies.set('dark_mode', value, { expires: 365 })
+
+      if(getters.check) {
+        axios.put('/api/user/settings', {
+          dark_mode: newDarkMode
+        })
+        .then(({ data }) => {
+          resolve()
+        })
+        .catch(() => {
+          reject()
+        })
+      }
     })
   }
 }

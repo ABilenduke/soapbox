@@ -32,4 +32,15 @@ class SettingsTest extends TestCase
 
         $this->assertEquals($this->user->settings->dark_mode, true);
     }
+
+    /** @test */
+    public function a_user_can_update_their_locale_setting()
+    {
+        $this->assertEquals($this->user->settings->locale, 'en');
+
+        $response = $this->json('put', "/api/user/settings", ['locale' => 'fr']);
+        $response->assertSuccessful();
+
+        $this->assertEquals($this->user->settings->locale, 'fr');
+    }
 }
