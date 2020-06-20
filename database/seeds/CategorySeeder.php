@@ -11,29 +11,17 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Category::class)->create([
-            'title' => 'Art',
-            'description' => 'All about art and stuff'
-        ]);
-
-        factory(App\Category::class)->create([
-            'title' => 'Science',
-            'description' => 'All about science and stuff'
-        ]);
-
-        factory(App\Category::class)->create([
-            'title' => 'Lifestyle',
-            'description' => 'All about lifestyle and stuff'
-        ]);
-
-        factory(App\Category::class)->create([
-            'title' => 'Politics',
-            'description' => 'All about politics and stuff'
-        ]);
-
-        factory(App\Category::class)->create([
-            'title' => 'World',
-            'description' => 'All about the world and stuff'
-        ]);
+        factory(App\Category::class)->create(['title' => 'animals']);
+        factory(App\Category::class)->create(['title' => 'art']);
+        factory(App\Category::class)->create(['title' => 'culture']);
+        factory(App\Category::class)->create(['title' => 'current_events']);
+        factory(App\Category::class)->create(['title' => 'health']);
+        factory(App\Category::class)->create(['title' => 'history']);
+        factory(App\Category::class)->create(['title' => 'how_to']);
+        factory(App\Category::class)->create(['title' => 'humour']);
+        factory(App\Category::class)->create(['title' => 'music']);
+        factory(App\Category::class)->create(['title' => 'nature']);
+        factory(App\Category::class)->create(['title' => 'science']);
+        factory(App\Category::class)->create(['title' => 'sports']);
     }
 }

@@ -13,10 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/users', 'UserController@index');
+Route::get('/users', 'User\IndexController@index');
 
-Route::get('/auth/check/email/{email}', 'Auth\CheckUserFieldAvailabilityController@email');
-Route::get('/auth/check/username/{username}', 'Auth\CheckUserFieldAvailabilityController@username');
+Route::group([
+    'prefix' => 'auth',
+    'namespace' => 'Auth'
+], function () {
+    Route::get('/check/email/{email}', 'CheckUserFieldAvailabilityController@email');
+    Route::get('/check/username/{username}', 'CheckUserFieldAvailabilityController@username');
+});
 
 Route::group([
     'prefix' => 'profile',
@@ -30,9 +35,14 @@ Route::group([
 
 Route::get('categories', 'CategoryController@index');
 
-Route::get('articles', 'ArticleController@index');
-Route::get('article/{id}', 'ArticleController@show');
-Route::get('article/{id}/content', 'ArticleContentController@index');
+Route::group([
+    'prefix' => 'article',
+    'namespace' => 'Article'
+], function () {
+    Route::get('/', 'IndexController@index');
+    Route::get('/{id}', 'IndexController@show');
+    Route::get('/{id}/content', 'ContentController@index');
+});
 
 Route::get('topcontributors', 'TopContributorsController@index');
 
@@ -49,31 +59,40 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/settings', 'SettingsController@index');
         Route::get('/settings/{setting}', 'SettingsController@show');
         Route::put('/settings', 'SettingsController@update');
+
+        Route::get('/articles/drafts', 'ArticleController@drafts');
+        Route::get('/articles/published', 'ArticleController@published');
     });
 
-    Route::post('profile/avatar', 'Profile\AvatarController@store');
+    Route::group([
+        'prefix' => 'profile',
+        'namespace' => 'Profile'
+    ], function () {
+        Route::post('/avatar', 'AvatarController@store');
+        Route::post('/follow/{user}', 'FollowController@create');
+        Route::delete('/follow/{user}', 'FollowController@delete');
+    });
 
-    Route::post('profile/follow/{user}', 'Profile\FollowController@create');
-    Route::delete('profile/follow/{user}', 'Profile\FollowController@delete');
-
-    Route::get('user/articles/drafts', 'User\ArticleController@drafts');
-    Route::get('user/articles/published', 'User\ArticleController@published');
-
-    Route::post('article', 'ArticleController@create');
-
-    Route::post('article/{id}/publish', 'ArticleController@publish');
-
-    Route::post('article/{id}/content', 'ArticleContentController@create');
-    Route::put('article/content/{id}', 'ArticleContentController@update');
+    Route::group([
+        'prefix' => 'article',
+        'namespace' => 'Article'
+    ], function () {
+        Route::post('/', 'IndexController@create');
+        Route::post('/{id}/publish', 'IndexController@publish');
+        Route::post('/{id}/content', 'ContentController@create');
+        Route::put('/content/{id}', 'ContentController@update');
+    });
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('register', 'Auth\RegisterController@register');
+    Route::group(['namespace' => 'Auth'], function () {
+        Route::post('login', 'LoginController@login');
+        Route::post('register', 'RegisterController@register');
 
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+        Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
+        Route::post('password/reset', 'ResetPasswordController@reset');
 
-    Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
-    Route::post('email/resend', 'Auth\VerificationController@resend');
+        Route::post('email/verify/{user}', 'VerificationController@verify')->name('verification.verify');
+        Route::post('email/resend', 'VerificationController@resend');
+    });
 });
