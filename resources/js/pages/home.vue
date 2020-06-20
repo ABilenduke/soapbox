@@ -1,5 +1,5 @@
 <template>
-  <InfiniteScroll v-if="articles" :articles="articles" @hitTheBottom="fetchMoreArticles()" />
+  <InfiniteScroll v-if="articles" :articles="articles" @hitTheBottom="getResults()" />
 </template>
 
 <script>
@@ -14,27 +14,39 @@ export default {
   components: { InfiniteScroll },
   data: () => ({
     show: false,
-    articlesMeta: null,
+    paginatedArticles: null,
     articles: []
   }),
   async created() {
-    await axios
-      .get(`/api/articles`)
-      .then(({ data }) => {
-        this.articlesMeta = data.articles;
-        this.articles = data.articles.data;
-      })
-      .catch((error) => {
-        this.$store.commit(`flash/${ADD_MESSAGE}`, {
-          level: "warning",
-          body: this.$t("articlesNotFound"),
-          isAutoRemove: true
-        });
-      });
+    await this.getResults();
   },
   methods: {
-    fetchMoreArticles() {
-      console.log("HIT ROCK BOTTOM");
+    getResults() {
+      if (
+        this.paginatedArticles &&
+        this.paginatedArticles.current_page === this.paginatedArticles.last_page
+      )
+        return;
+
+      let page = 1;
+
+      if (
+        this.paginatedArticles &&
+        this.paginatedArticles.current_page < this.paginatedArticles.last_page
+      ) {
+        page = this.paginatedArticles.current_page + 1;
+      }
+
+      this.isLoading = true;
+      axios
+        .get("/api/article?page=" + page)
+        .then(({ data }) => {
+          this.paginatedArticles = data.articles;
+          data.articles.data.map(article => {
+            this.articles.push(article);
+          });
+        })
+        .finally(() => (this.isLoading = false));
     }
   }
 };

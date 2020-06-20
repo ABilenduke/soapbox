@@ -39,7 +39,7 @@ export default {
       let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
       if (bottomOfWindow) {
-        axios.get(`/api/articles?page=${this.nextPage}`)
+        axios.get(`/api/article?page=${this.nextPage}`)
           .then(response => {
             this.persons.push(response.data.results[0]);
           });

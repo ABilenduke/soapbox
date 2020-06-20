@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -93,5 +94,20 @@ class Article extends Model
     {
         $article = $this->images()->where('is_cover', true)->first();
         return $article ? $article->path : null;
+    }
+
+    public function storeNewImage($image, $isCover = false)
+    {
+        $articleImage = \Image::make($image)->encode('jpg');
+        $imageName = substr(md5(Carbon::now()->getTimestamp()), 0, 25);
+        $imagePath = "images/articles/{$this->identifier}/$imageName.jpg";
+
+        \Storage::disk('public')->put($imagePath, $articleImage, 'public');
+
+        App\ArticleImage::create([
+            'article_id' => $this->id,
+            'path' => $imagePath,
+            'is_cover' => $isCover
+        ]);
     }
 }

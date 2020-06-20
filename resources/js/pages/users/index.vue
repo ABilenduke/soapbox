@@ -1,43 +1,53 @@
 <template>
-  <v-container fluid v-if="paginatedUsers">
-    <v-row dense>
-        <v-col
-          v-for="(user, index) in paginatedUsers.data"
-          :key="`user-${index}`"
-          :lg="3"
-          :md="6"
-          :sm="12"
-        >
-          <ProfileCard :user="user" />
-        </v-col>
-    </v-row>
-  </v-container>
+  <UserInfiniteScroll :users="users" @hitTheBottom="getResults()" />
 </template>
 
 <script>
-import ProfileCard from '~/components/base/ProfileCard.vue'
-import axios from 'axios'
-import { mapGetters } from 'vuex'
+import UserInfiniteScroll from "~/components/base/UserInfiniteScroll.vue";
+import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'UsersIndexPage',
-  components: { ProfileCard },
+  name: "UsersIndexPage",
+  components: { UserInfiniteScroll },
   data: () => ({
+    users: [],
     paginatedUsers: null,
     isLoading: false
   }),
   async created() {
-    await this.getResults()
+    await this.getResults();
   },
   methods: {
-    getResults(page = 1) {
-      this.isLoading = true
-      axios.get('/api/users?page=' + page)
-          .then(({ data }) => this.paginatedUsers = data.users)
-          .finally(() => this.isLoading = false);
+    getResults() {
+      if (
+        this.paginatedUsers &&
+        this.paginatedUsers.current_page === this.paginatedUsers.last_page
+      )
+        return;
+
+      let page = 1;
+
+      if (
+        this.paginatedUsers &&
+        this.paginatedUsers.current_page < this.paginatedUsers.last_page
+      ) {
+        page = this.paginatedUsers.current_page + 1;
+      }
+
+      this.isLoading = true;
+      axios
+        .get("/api/users?page=" + page)
+        .then(({ data }) => {
+          this.paginatedUsers = data.users;
+          data.users.data.map(user => {
+            this.users.push(user);
+          });
+        })
+        .finally(() => (this.isLoading = false));
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

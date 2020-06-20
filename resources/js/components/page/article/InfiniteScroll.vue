@@ -23,8 +23,7 @@ export default {
   }),
   methods: {
     getColumn(index) {
-      const number = String(index).charAt(0)
-      console.log(number)
+      const number = String(index).slice(-1)
       const columns = {
         "0": 6,
         "1": 6,
@@ -38,7 +37,7 @@ export default {
         "9": 4,
       }
 
-      return columns[index]
+      return columns[number]
     }
   }
 };
