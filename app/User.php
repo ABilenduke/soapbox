@@ -195,19 +195,12 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return [];
     }
 
-    public function follow()
+    public function bookmarks()
     {
-        $attributes = ['user_id' => auth()->id()];
-
-        if (!$this->likes()->where($attributes)->exists()) {
-            $this->likes()->create($attributes);
-        }
-    }
-
-    public function unFollow()
-    {
-        $attributes = ['user_id' => auth()->id()];
-        $this->likes()->where($attributes)->get()->each->delete();
+        return $this->belongsToMany(
+            'App\Article',
+            'bookmarks'
+        )->withTimestamps();
     }
 
     public function isFollowed()

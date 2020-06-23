@@ -91,4 +91,15 @@ class IndexController extends Controller
 
         return response()->json(['message' => 'article_not_found'], 400);
     }
+
+    public function like(Article $article)
+    {
+        if ($article->isLiked()) {
+            $article->unLike();
+            return response()->json(['message' => 'article unliked'], 200);
+        }
+
+        $article->like();
+        return response()->json(['message' => 'article liked'], 200);
+    }
 }

@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Like extends Model
 {
-    use SoftDeletes,
-        Traits\UsesUuid,
+    use Traits\UsesUuid,
         Traits\RecordsActivity;
 
     /**
@@ -17,7 +16,7 @@ class Like extends Model
      */
     protected $guarded = [];
 
-    public function liked()
+    public function likeable()
     {
         return $this->morphTo();
     }

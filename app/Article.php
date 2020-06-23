@@ -39,7 +39,10 @@ class Article extends Model
 
     protected $appends = [
         'identifier',
-        'coverImage'
+        'coverImage',
+        'likesCount',
+        'isLiked',
+        'isBookmarked'
     ];
 
     /**
@@ -59,17 +62,19 @@ class Article extends Model
         return md5($this->id . $this->created_at);
     }
 
-    /**
-     * Get the user that created the article.
-     */
     public function category()
     {
         return $this->hasOne('App\Category');
     }
 
-    /**
-     * Get the user that created the article.
-     */
+    public function bookmarks()
+    {
+        return $this->belongsToMany(
+            'App\User',
+            'bookmarks'
+        )->withTimestamps();
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -92,8 +97,8 @@ class Article extends Model
 
     public function getCoverImageAttribute()
     {
-        $article = $this->images()->where('is_cover', true)->first();
-        return $article ? $article->path : null;
+        $image = $this->images()->where('is_cover', true)->first();
+        return $image ? $image->path : null;
     }
 
     public function storeNewImage($image, $isCover = false)
@@ -104,10 +109,20 @@ class Article extends Model
 
         \Storage::disk('public')->put($imagePath, $articleImage, 'public');
 
-        App\ArticleImage::create([
+        \App\ArticleImage::create([
             'article_id' => $this->id,
             'path' => $imagePath,
             'is_cover' => $isCover
         ]);
+    }
+
+    public function isBookmarked()
+    {
+        return request()->user() ? !!request()->user()->bookmarks()->where('article_id', $this->id)->count() : false;
+    }
+
+    public function getIsBookmarkedAttribute()
+    {
+        return $this->isBookmarked();
     }
 }

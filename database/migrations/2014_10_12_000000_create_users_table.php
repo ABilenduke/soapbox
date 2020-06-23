@@ -19,10 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('confirmation_token', 255)->nullable()->unique();
-            $table->dateTime('confirmation_token_expiry')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(false);
+            $table->string('description')->nullable();
+            $table->unsignedInteger('reputation')->default(0);
+            $table->string('profile_background')->default('profile-background-1.jpg');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

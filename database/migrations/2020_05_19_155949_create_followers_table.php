@@ -22,11 +22,13 @@ class CreateFollowersTable extends Migration
 
             $table->foreign('follower_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('following_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

@@ -22,7 +22,7 @@
   "users": "Users",
   "subscriptions": "Subscriptions",
   "history": "History",
-  "saved": "Saved",
+  "bookmarked": "Bookmarked",
   "category": "Category",
   "description": "Description",
   "coverImage": "Cover Image",
@@ -49,6 +49,7 @@
   "block": "Block",
   "locale": "Locale",
   "darkMode": "Dark Mode",
+  "read": "Read",
   "create": {
     "title": "Create",
     "index": {

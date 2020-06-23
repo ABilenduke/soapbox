@@ -23,7 +23,8 @@ class CreateArticleImagesTable extends Migration
 
             $table->foreign('article_id')
                   ->references('id')
-                  ->on('articles');
+                  ->on('articles')
+                  ->onDelete('cascade');
         });
     }
 
