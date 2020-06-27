@@ -10,7 +10,6 @@ class Avatar extends Model
     use SoftDeletes,
         Traits\Likeable,
         Traits\Taggable,
-        Traits\UsesUuid,
         Traits\RecordsActivity;
 
     /**

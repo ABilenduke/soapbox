@@ -96,6 +96,7 @@ Route::group([
     Route::get('/', 'IndexController@index');
     Route::get('/{id}', 'IndexController@show');
     Route::get('/{id}/content', 'ContentController@index');
+    Route::post('/{id}/share', 'ShareController@create');
 });
 
 Route::get('topcontributors', 'TopContributorsController@index');

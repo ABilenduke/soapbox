@@ -20,7 +20,7 @@
       <v-btn
         v-if="isEdit"
         link
-        :to="`/articles/create/content/${this.article.id}`"
+        :to="`/articles/create/content/${article.id}`"
         color="green"
         text
       >
@@ -28,10 +28,6 @@
       </v-btn>
 
       <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-share-variant</v-icon>
-      </v-btn>
 
       <span class="article-like-count">
         {{ article.likesCount }}
@@ -45,16 +41,29 @@
         <v-icon v-if="article.isBookmarked" color="orange lighten-1">mdi-bookmark</v-icon>
         <v-icon v-else>mdi-bookmark-outline</v-icon>
       </v-btn>
+
+      <v-btn @click="showShareModal = !showShareModal" icon>
+        <v-icon>mdi-share-variant</v-icon>
+      </v-btn>
     </v-card-actions>
+
+    <ShareModal
+      :article="article"
+      :modalIsOpen="showShareModal"
+      @modalBackgroundClicked="showShareModal = false"
+    />
+
   </v-card>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import ShareModal from '~/components/base/ShareModal.vue'
 
 export default {
   name: "ArticleCard",
+  components: { ShareModal },
   props: {
     article: {
       type: Object
@@ -64,7 +73,7 @@ export default {
     }
   },
   data: () => ({
-    showShareModal: null
+    showShareModal: false
   }),
   computed: {
     ...mapGetters({

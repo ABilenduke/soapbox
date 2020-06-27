@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-    use SoftDeletes, Traits\UsesUuid;
+    use SoftDeletes;
 
     /**
      * Don't auto-apply mass assignment protection.

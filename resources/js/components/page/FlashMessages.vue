@@ -58,5 +58,6 @@ export default {
   bottom: 0;
   right: 0;
   padding: 5px;
+  z-index: 1000;
 }
 </style>

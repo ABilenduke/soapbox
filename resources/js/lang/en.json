@@ -50,6 +50,18 @@
   "locale": "Locale",
   "darkMode": "Dark Mode",
   "read": "Read",
+  "linkTitle": "Check out this awesome article over at Soapbox:",
+  "articleLinkCopied": "The link has been copied to your clipboard!",
+  "link": "Link",
+  "share": {
+    "title": "Share",
+    "facebook": "Share on Facebook",
+    "twitter": "Share on Twitter",
+    "pinterest": "Share on Pinterest",
+    "reddit": "Share on Redit",
+    "linkedin": "Share on Linkedin",
+    "email": "Share by email"
+  },
   "create": {
     "title": "Create",
     "index": {
