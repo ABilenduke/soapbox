@@ -95,6 +95,11 @@ class Article extends Model
         return $this->hasMany('App\ArticleImage');
     }
 
+    public function shares()
+    {
+        return $this->hasMany('App\Share');
+    }
+
     public function getCoverImageAttribute()
     {
         $image = $this->images()->where('is_cover', true)->first();
