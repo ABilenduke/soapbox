@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/{id}/publish', 'IndexController@publish');
         Route::post('/{id}/content', 'ContentController@create');
         Route::put('/{id}/content', 'ContentController@update');
-        Route::post('/{article}/like', 'IndexController@like');
+        Route::post('/{article}/like', 'LikeController@create');
         Route::post('/{article}/bookmark', 'BookmarkController@create');
     });
 });

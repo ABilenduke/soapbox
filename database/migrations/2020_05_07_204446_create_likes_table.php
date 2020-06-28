@@ -19,6 +19,7 @@ class CreateLikesTable extends Migration
             $table->uuid('likeable_id')->index();
             $table->string('likeable_type');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                   ->references('id')

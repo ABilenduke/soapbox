@@ -31,10 +31,10 @@ class BookmarkController extends Controller
                 ->where('user_id', '=', request()->user()->id)
                 ->delete();
 
-            return response()->json(['message' => 'article bookmark removed'], 200);
+            return response()->json(['message' => 'article_bookmark_removed'], 200);
         }
 
         $article->bookmarks()->attach($attributes);
-        return response()->json(['message' => 'article bookmarked'], 200);
+        return response()->json(['message' => 'article_bookmarked'], 200);
     }
 }
