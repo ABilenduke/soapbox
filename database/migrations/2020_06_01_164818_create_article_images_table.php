@@ -14,7 +14,7 @@ class CreateArticleImagesTable extends Migration
     public function up()
     {
         Schema::create('article_images', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('id');
             $table->uuid('article_id');
             $table->string('path');
             $table->boolean('is_cover');
@@ -23,7 +23,8 @@ class CreateArticleImagesTable extends Migration
 
             $table->foreign('article_id')
                   ->references('id')
-                  ->on('articles');
+                  ->on('articles')
+                  ->onDelete('cascade');
         });
     }
 

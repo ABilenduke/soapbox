@@ -14,7 +14,7 @@ class CreateAvatarsTable extends Migration
     public function up()
     {
         Schema::create('avatars', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('id');
             $table->uuid('user_id');
             $table->string('path');
             $table->boolean('is_primary');
@@ -23,7 +23,8 @@ class CreateAvatarsTable extends Migration
 
             $table->foreign('user_id')
                   ->references('id')
-                  ->on('users');
+                  ->on('users')
+                  ->onDelete('cascade');
         });
     }
 

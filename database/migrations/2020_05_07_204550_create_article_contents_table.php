@@ -14,7 +14,7 @@ class CreateArticleContentsTable extends Migration
     public function up()
     {
         Schema::create('article_contents', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('id');
             $table->uuid('article_id');
             $table->integer('order');
             $table->binary('content');
@@ -23,7 +23,8 @@ class CreateArticleContentsTable extends Migration
 
             $table->foreign('article_id')
                   ->references('id')
-                  ->on('articles');
+                  ->on('articles')
+                  ->onDelete('cascade');
         });
     }
 

@@ -65,7 +65,7 @@ export default {
       { icon: "mdi-home", text: "home", to: "home" },
       { icon: "mdi-account-group", text: "users", to: "users" },
       { icon: "mdi-history", text: "history", to: "articles.history" },
-      { icon: "mdi-bookmark", text: "saved", to: "articles.saved" },
+      { icon: "mdi-bookmark", text: "bookmarked", to: "articles.bookmarked" },
       { icon: "mdi-pencil", text: "create.title", to: "articles.create.index" }
     ]
   }

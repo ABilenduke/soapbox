@@ -58,9 +58,9 @@ export default [
   },
 
   {
-    path: '/articles/saved',
-    name: 'articles.saved',
-    component: page('articles/saved.vue')
+    path: '/articles/bookmarked',
+    name: 'articles.bookmarked',
+    component: page('articles/bookmarked.vue')
   },
   {
     path: '/articles/history',

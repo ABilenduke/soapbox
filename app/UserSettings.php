@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserSettings extends Model
 {
-    use SoftDeletes,
-        Traits\UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'user_id';
 

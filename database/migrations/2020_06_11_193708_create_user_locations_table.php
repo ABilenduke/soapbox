@@ -14,7 +14,7 @@ class CreateUserLocationsTable extends Migration
     public function up()
     {
         Schema::create('user_locations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('id');
             $table->uuid('user_id');
             $table->string('location');
             $table->boolean('is_current')->default(true);
@@ -24,7 +24,8 @@ class CreateUserLocationsTable extends Migration
 
             $table->foreign('user_id')
                   ->references('id')
-                  ->on('users');
+                  ->on('users')
+                  ->onDelete('cascade');
         });
     }
 

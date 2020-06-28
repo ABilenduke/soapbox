@@ -8,37 +8,62 @@
     <v-card-text>{{ article.description }}</v-card-text>
 
     <v-card-actions>
-      <v-btn text>Share</v-btn>
-
       <v-btn
         link
-        :to="destination"
-        color="purple"
+        :to="`/articles/view/${article.id}`"
+        color="orange lighten-2"
         text
       >
-        Explore
+        {{ $t('read') }}
+      </v-btn>
+      
+      <v-btn
+        v-if="isEdit"
+        link
+        :to="`/articles/create/content/${article.id}`"
+        color="green"
+        text
+      >
+        {{ $t('read') }}
       </v-btn>
 
       <v-spacer></v-spacer>
 
       <span class="article-like-count">
-        {{ article.likes }}
+        {{ article.likesCount }}
       </span>
-
-      <v-btn icon @click="article.liked = !article.liked">
-        <v-icon :color="article.liked ? 'red' : ''">mdi-heart</v-icon>
+      <v-btn icon @click="toggleLike()">
+        <v-icon v-if="article.isLiked" color="red">mdi-heart</v-icon>
+        <v-icon v-else>mdi-heart-outline</v-icon>
       </v-btn>
 
-      <v-btn icon @click="article.bookmarked = !article.bookmarked">
-        <v-icon :color="article.bookmarked ? 'orange lighten-1' : ''">mdi-bookmark</v-icon>
+      <v-btn icon @click="toggleSave()">
+        <v-icon v-if="article.isBookmarked" color="orange lighten-1">mdi-bookmark</v-icon>
+        <v-icon v-else>mdi-bookmark-outline</v-icon>
+      </v-btn>
+
+      <v-btn @click="showShareModal = !showShareModal" icon>
+        <v-icon>mdi-share-variant</v-icon>
       </v-btn>
     </v-card-actions>
+
+    <ShareModal
+      :article="article"
+      :modalIsOpen="showShareModal"
+      @modalBackgroundClicked="showShareModal = false"
+    />
+
   </v-card>
 </template>
 
 <script>
+import axios from 'axios'
+import { mapGetters } from 'vuex'
+import ShareModal from '~/components/base/ShareModal.vue'
+
 export default {
   name: "ArticleCard",
+  components: { ShareModal },
   props: {
     article: {
       type: Object
@@ -48,16 +73,54 @@ export default {
     }
   },
   data: () => ({
-    destination: null
+    showShareModal: false
   }),
-  created() {
-    if (this.isEdit) {
-      this.destination = `/articles/create/content/${this.article.id}`
-    } else {
-      this.destination = `/articles/view/${this.article.id}`
-    }
+  computed: {
+    ...mapGetters({
+      vxIsAuth: 'auth/check'
+    }),
   },
-  methods: {}
+  methods: {
+    toggleLike() {
+      if (!this.vxIsAuth) {
+        this.relocateToLogin()
+        return
+      }
+
+      axios.post(`/api/article/${this.article.id}/like`)
+        .then(() => {
+          this.article.isLiked = !this.article.isLiked
+        })
+        .catch(() => {
+          this.$store.commit(`flash/${ADD_MESSAGE}`, {
+            level: 'danger',
+            body: this.$t('articleLikeError'),
+            isAutoRemove: true
+          })
+        })
+    },
+    toggleSave() {
+      if (!this.vxIsAuth) {
+        this.relocateToLogin()
+        return
+      }
+
+      axios.post(`/api/article/${this.article.id}/bookmark`)
+        .then(() => {
+          this.article.isBookmarked = !this.article.isBookmarked
+        })
+        .catch(() => {
+          this.$store.commit(`flash/${ADD_MESSAGE}`, {
+            level: 'danger',
+            body: this.$t('articleSaveError'),
+            isAutoRemove: true
+          })
+        })
+    },
+    relocateToLogin() {
+      this.$router.push({ name: 'login' })
+    }
+  }
 };
 </script>
 

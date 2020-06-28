@@ -13,39 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/users', 'User\IndexController@index');
-
-Route::group([
-    'prefix' => 'auth',
-    'namespace' => 'Auth'
-], function () {
-    Route::get('/check/email/{email}', 'CheckUserFieldAvailabilityController@email');
-    Route::get('/check/username/{username}', 'CheckUserFieldAvailabilityController@username');
-});
-
-Route::group([
-    'prefix' => 'profile',
-    'namespace' => 'Profile'
-], function () {
-    Route::get('user/{user}', 'UserController@show');
-    Route::get('following/{user}', 'FollowController@following');
-    Route::get('followers/{user}', 'FollowController@followers');
-    Route::get('activity/{user}', 'ActivityController@index');
-});
-
-Route::get('categories', 'CategoryController@index');
-
-Route::group([
-    'prefix' => 'article',
-    'namespace' => 'Article'
-], function () {
-    Route::get('/', 'IndexController@index');
-    Route::get('/{id}', 'IndexController@show');
-    Route::get('/{id}/content', 'ContentController@index');
-});
-
-Route::get('topcontributors', 'TopContributorsController@index');
-
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
@@ -78,9 +45,12 @@ Route::group(['middleware' => 'auth:api'], function () {
         'namespace' => 'Article'
     ], function () {
         Route::post('/', 'IndexController@create');
+        Route::get('/bookmarks', 'BookmarkController@index');
         Route::post('/{id}/publish', 'IndexController@publish');
         Route::post('/{id}/content', 'ContentController@create');
-        Route::put('/content/{id}', 'ContentController@update');
+        Route::put('/{id}/content', 'ContentController@update');
+        Route::post('/{article}/like', 'LikeController@create');
+        Route::post('/{article}/bookmark', 'BookmarkController@create');
     });
 });
 
@@ -96,3 +66,37 @@ Route::group(['middleware' => 'guest:api'], function () {
         Route::post('email/resend', 'VerificationController@resend');
     });
 });
+
+Route::get('/users', 'User\IndexController@index');
+
+Route::group([
+    'prefix' => 'auth',
+    'namespace' => 'Auth'
+], function () {
+    Route::get('/check/email/{email}', 'CheckUserFieldAvailabilityController@email');
+    Route::get('/check/username/{username}', 'CheckUserFieldAvailabilityController@username');
+});
+
+Route::group([
+    'prefix' => 'profile',
+    'namespace' => 'Profile'
+], function () {
+    Route::get('user/{user}', 'UserController@show');
+    Route::get('following/{user}', 'FollowController@following');
+    Route::get('followers/{user}', 'FollowController@followers');
+    Route::get('activity/{user}', 'ActivityController@index');
+});
+
+Route::get('categories', 'CategoryController@index');
+
+Route::group([
+    'prefix' => 'article',
+    'namespace' => 'Article'
+], function () {
+    Route::get('/', 'IndexController@index');
+    Route::get('/{id}', 'IndexController@show');
+    Route::get('/{id}/content', 'ContentController@index');
+    Route::post('/{id}/share', 'ShareController@create');
+});
+
+Route::get('topcontributors', 'TopContributorsController@index');

@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleContent extends Model
 {
-    use SoftDeletes,
-        Traits\UsesUuid,
-        Traits\RecordsActivity;
+    use SoftDeletes, Traits\RecordsActivity;
     
     /**
      * The attributes that are mass assignable.

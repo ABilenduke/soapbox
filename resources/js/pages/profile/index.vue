@@ -7,6 +7,7 @@
     <v-app-bar
       color="primary"
       dense
+      dark
     >
         <v-row>
           <v-col

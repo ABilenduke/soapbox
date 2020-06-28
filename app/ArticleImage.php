@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleImage extends Model
 {
-    use Traits\UsesUuid,
-        Traits\RecordsActivity;
+    use Traits\RecordsActivity;
     
     /**
      * The attributes that are mass assignable.
