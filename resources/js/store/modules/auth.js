@@ -7,7 +7,7 @@ import Vue from 'vue';
 export const state = () => ({
   user: null,
   token: Cookies.get('token'),
-  darkMode: Cookies.get('dark_mode') || null,
+  darkMode: Cookies.get('dark_mode') === "true",
 })
 
 // getters
@@ -15,7 +15,7 @@ export const getters = {
   user: state => state.user,
   token: state => state.token,
   check: state => state.user !== null,
-  darkMode: state => state.darkMode ? state.darkMode : state?.user?.settings?.dark_mode
+  darkMode: state => state.darkMode
 }
 
 // mutations
@@ -48,6 +48,11 @@ export const mutations = {
 
   [types.UPDATE_USER_AVATAR] (state, path) {
     state.user.avatar = path
+  },
+
+  [types.TOGGLE_DARK_MODE] (state, value) {
+    state.darkMode = value
+    Cookies.set('dark_mode', value, { expires: 365 })
   },
 }
 
@@ -180,8 +185,8 @@ export const actions = {
 
   toggleDarkMode({ commit, getters }, value) {
     return new Promise((resolve, reject) => {
-      const newDarkMode = value
-      Cookies.set('dark_mode', value, { expires: 365 })
+      const newDarkMode = !!value
+      commit(types.TOGGLE_DARK_MODE, newDarkMode)
 
       if(getters.check) {
         axios.put('/api/user/settings', {

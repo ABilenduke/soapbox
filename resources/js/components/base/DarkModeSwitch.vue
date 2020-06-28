@@ -22,13 +22,13 @@ export default {
   },
   watch: {
     darkMode(newValue) {
-      this.$vuetify.theme.dark = newValue;
-      this.vxToggleDarkMode(newValue);
+      this.$vuetify.theme.dark = newValue
+      this.vxToggleDarkMode(newValue)
     }
   },
   created() {
     if (this.vxDarkMode) {
-      this.darkMode = this.vxDarkMode;
+      this.darkMode = this.vxDarkMode
     }
   },
   methods: {
