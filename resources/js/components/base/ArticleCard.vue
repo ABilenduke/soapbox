@@ -1,16 +1,16 @@
 <template>
   <v-card>
-    <v-img class="white--text align-end" :src="`/storage/${article.coverImage}`" height="250px" />
-    <v-card-title>{{ article.title }}</v-card-title>
+    <v-img class="white--text align-end" :src="`/storage/${content.coverImage}`" height="250px" />
+    <v-card-title>{{ content.title }}</v-card-title>
 
-    <v-card-subtitle>{{ article.author }}</v-card-subtitle>
+    <v-card-subtitle>{{ content.author }}</v-card-subtitle>
 
-    <v-card-text>{{ article.description }}</v-card-text>
+    <v-card-text>{{ content.description }}</v-card-text>
 
     <v-card-actions>
       <v-btn
         link
-        :to="`/articles/view/${article.id}`"
+        :to="`/articles/view/${content.id}`"
         color="orange lighten-2"
         text
       >
@@ -20,25 +20,25 @@
       <v-btn
         v-if="isEdit"
         link
-        :to="`/articles/create/content/${article.id}`"
+        :to="`/articles/create/content/${content.id}`"
         color="green"
         text
       >
-        {{ $t('read') }}
+        {{ $t('edit') }}
       </v-btn>
 
       <v-spacer></v-spacer>
 
       <span class="article-like-count">
-        {{ article.likesCount }}
+        {{ content.likesCount }}
       </span>
       <v-btn icon @click="toggleLike()">
-        <v-icon v-if="article.isLiked" color="red">mdi-heart</v-icon>
+        <v-icon v-if="content.isLiked" color="red">mdi-heart</v-icon>
         <v-icon v-else>mdi-heart-outline</v-icon>
       </v-btn>
 
       <v-btn icon @click="toggleSave()">
-        <v-icon v-if="article.isBookmarked" color="orange lighten-1">mdi-bookmark</v-icon>
+        <v-icon v-if="content.isBookmarked" color="orange lighten-1">mdi-bookmark</v-icon>
         <v-icon v-else>mdi-bookmark-outline</v-icon>
       </v-btn>
 
@@ -48,7 +48,7 @@
     </v-card-actions>
 
     <ShareModal
-      :article="article"
+      :article="content"
       :modalIsOpen="showShareModal"
       @modalBackgroundClicked="showShareModal = false"
     />
@@ -65,20 +65,24 @@ export default {
   name: "ArticleCard",
   components: { ShareModal },
   props: {
-    article: {
+    content: {
       type: Object
-    },
-    isEdit: {
-      type: Boolean
     }
   },
   data: () => ({
-    showShareModal: false
+    showShareModal: false,
   }),
   computed: {
     ...mapGetters({
+      vxAuthUser: 'auth/user',
       vxIsAuth: 'auth/check'
     }),
+    isEdit() {
+      if (!this.vxIsAuth) {
+        return false
+      }
+      return this.content.user_id === this.vxAuthUser.id 
+    }
   },
   methods: {
     toggleLike() {
@@ -87,9 +91,15 @@ export default {
         return
       }
 
-      axios.post(`/api/article/${this.article.id}/like`)
+      axios.post(`/api/article/${this.content.id}/like`)
         .then(() => {
-          this.article.isLiked = !this.article.isLiked
+          this.content.isLiked = !this.content.isLiked
+
+          if (this.content.isLiked) {
+            this.content.likesCount += 1
+          } else {
+            this.content.likesCount -= 1
+          }
         })
         .catch(() => {
           this.$store.commit(`flash/${ADD_MESSAGE}`, {
@@ -105,9 +115,9 @@ export default {
         return
       }
 
-      axios.post(`/api/article/${this.article.id}/bookmark`)
+      axios.post(`/api/article/${this.content.id}/bookmark`)
         .then(() => {
-          this.article.isBookmarked = !this.article.isBookmarked
+          this.content.isBookmarked = !this.content.isBookmarked
         })
         .catch(() => {
           this.$store.commit(`flash/${ADD_MESSAGE}`, {

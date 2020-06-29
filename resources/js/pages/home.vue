@@ -1,53 +1,19 @@
 <template>
-  <InfiniteScroll v-if="articles" :articles="articles" @hitTheBottom="getResults()" />
+  <InfiniteScroll
+    title="home-articles"
+    endpoint="/api/article"
+    :component="articleCardComponent"
+  />
 </template>
 
 <script>
-import axios from "axios"
-import InfiniteScroll from "~/components/page/article/InfiniteScroll.vue"
-import { ADD_MESSAGE } from '~/store/mutation-types'
-import helpers from "~/helpers"
-const { getRandomId } = helpers
+import ArticleCard from "~/components/base/ArticleCard.vue"
 
 export default {
   name: "HomePage",
-  components: { InfiniteScroll },
+  components: { ArticleCard },
   data: () => ({
-    show: false,
-    paginatedArticles: null,
-    articles: []
-  }),
-  async created() {
-    await this.getResults();
-  },
-  methods: {
-    getResults() {
-      if (
-        this.paginatedArticles &&
-        this.paginatedArticles.current_page === this.paginatedArticles.last_page
-      )
-        return;
-
-      let page = 1;
-
-      if (
-        this.paginatedArticles &&
-        this.paginatedArticles.current_page < this.paginatedArticles.last_page
-      ) {
-        page = this.paginatedArticles.current_page + 1;
-      }
-
-      this.isLoading = true;
-      axios
-        .get("/api/article?page=" + page)
-        .then(({ data }) => {
-          this.paginatedArticles = data.articles;
-          data.articles.data.map(article => {
-            this.articles.push(article);
-          });
-        })
-        .finally(() => (this.isLoading = false));
-    }
-  }
+    articleCardComponent: ArticleCard
+  })
 };
 </script>

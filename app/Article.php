@@ -32,10 +32,7 @@ class Article extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'user_id',
-        'category_id'
-    ];
+    protected $hidden = [];
 
     protected $appends = [
         'identifier',

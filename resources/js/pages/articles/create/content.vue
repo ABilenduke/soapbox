@@ -2,83 +2,68 @@
   <v-container v-if="article">
     <v-row>
       <v-col>
-        <v-img :src="`/storage/${article.coverImage}`" contain :aspect-ratio="16 / 9" />
+        <ArticleMetaInfo :article="article" />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <h4>{{ $t('title') }}</h4>
-        <h5>
-          {{ article.title }}
-        </h5>
-      </v-col>
-    </v-row>
+        <v-card>
+          <v-card-title>
+            <v-btn :disabled="highestOrder >= 5" @click="addContent()" dark>
+              <v-icon>
+                mdi-plus-circle
+              </v-icon>
+              <span class="addText">
+                {{ $t('addContent') }}
+              </span>
+            </v-btn>
 
-    <v-row>
-      <v-col>
-        <h4>{{ $t('subtitle') }}</h4>
-        <h5>
-          {{ article.subtitle }}
-        </h5>
-      </v-col>
-    </v-row>
+            <v-spacer />
 
-    <v-row>
-      <v-col>
-        <h4>{{ $t('description') }}</h4>
-        <p>{{ article.description }}</p>
-      </v-col>
-    </v-row>
+            <v-btn @click="publishArticle()" color="green" dark>
+              <v-icon>
+                mdi-publish
+              </v-icon>
+              <span class="addText">
+                {{ $t('publishArticle') }}
+              </span>
+            </v-btn>
+          </v-card-title>
 
-    <v-row>
-      <v-col>
-        <v-btn :disabled="highestOrder >= 5" @click="addContent()">
-          <v-icon>
-            mdi-plus-circle
-          </v-icon>
-          <span class="addText">
-            {{ $t('addContent') }}
-          </span>
-        </v-btn>
-      </v-col>
-      <v-col justify="flex-end">
-        <v-btn @click="publishArticle()" color="green">
-          <v-icon>
-            mdi-publish
-          </v-icon>
-          <span class="addText">
-            {{ $t('publishArticle') }}
-          </span>
-        </v-btn>
-      </v-col>
-    </v-row>
+          <v-card-text>
 
-    <v-row
-      v-for="(section, index) in content"
-      :key="`article-content-${index}`"
-      class="pa-3"
-    >
-      <v-col class="wysiwyg-container">
-        <WYSCreator
-          :options="editorOption"
-          :initialContent="section.content"
-          @contentHasUpdated="contentHasUpdated($event, section.id)"
-        />
+            <v-container>
+              <v-row
+                v-for="(section, index) in content"
+                :key="`article-content-${index}`"
+                class="pa-3"
+              >
+                <v-col class="wysiwyg-container">
+                  <WYSCreator
+                    :options="editorOption"
+                    :initialContent="section.content"
+                    @contentHasUpdated="contentHasUpdated($event, section.id)"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-  // import WYSContent from '~/page/article/WYSContent.vue'
+  import ArticleMetaInfo from '~/components/page/article/ArticleMetaInfo.vue'
   import WYSCreator from '~/components/page/article/WYSCreator.vue'
   import axios from 'axios'
   import { ADD_MESSAGE } from '~/store/mutation-types'
 
   export default {
     name: "CreateContentPage",
-    components: {WYSCreator},
+    components: { ArticleMetaInfo, WYSCreator },
     middleware: 'auth',
     data: () => ({
       articleId: null,

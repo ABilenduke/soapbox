@@ -36,7 +36,7 @@ class ArticleController extends Controller
         $articles = $this->user->articles()->where('is_published', false)->paginate(10);
 
         if ($articles) {
-            return response()->json(['articles' => $articles], 200);
+            return response()->json(['contents' => $articles], 200);
         }
 
         return response()->json(['message' => 'articles_not_found'], 400);
@@ -47,7 +47,7 @@ class ArticleController extends Controller
         $articles = $this->user->articles()->where('is_published', true)->paginate(10);
 
         if ($articles) {
-            return response()->json(['articles' => $articles], 200);
+            return response()->json(['contents' => $articles], 200);
         }
 
         return response()->json(['message' => 'articles_not_found'], 400);

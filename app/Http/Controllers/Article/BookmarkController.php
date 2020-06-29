@@ -13,7 +13,7 @@ class BookmarkController extends Controller
     public function index()
     {
         $articles = request()->user()->bookmarks()->paginate(15);
-        return response()->json(['articles' => $articles], 200);
+        return response()->json(['contents' => $articles], 200);
     }
 
     public function show(Article $article)
