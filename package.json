@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "lint": "eslint --fix --ext .js,.vue resources/js",
-        "fullProd": "npm install && npm run production"
+        "full-prod": "npm install && npm run production"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
