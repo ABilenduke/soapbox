@@ -119,7 +119,7 @@ export default {
         });
     },
     joinedAt() {
-      return new moment(this.vxUser.created_at).fromNow()
+      // return new moment(this.vxUser.created_at).fromNow()
     }
   }
 };
