@@ -6,7 +6,7 @@ services:
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   node_app:
-    command: npm run watch
+    command: npm run hot
 
   #Nginx Service
   webserver:
