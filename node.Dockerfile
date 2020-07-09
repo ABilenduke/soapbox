@@ -9,4 +9,4 @@ RUN npm install
 
 COPY . .
 
-CMD [ "npm", "run", "full-prod" ]
+CMD [ "npm", "run", "prod" ]
