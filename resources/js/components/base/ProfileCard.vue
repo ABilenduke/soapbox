@@ -96,7 +96,6 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import { mapGetters } from "vuex";
 
 export default {

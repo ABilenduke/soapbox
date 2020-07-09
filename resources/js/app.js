@@ -14,6 +14,7 @@ import App from '~/components/App'
 import '~/plugins'
 import '~/components'
 
+Vue.use(require('vue-moment'));
 Vue.config.productionTip = false
 
 /**
