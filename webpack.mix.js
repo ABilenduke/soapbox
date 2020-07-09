@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs-extra')
 const mix = require('laravel-mix')
-// require('laravel-mix-versionhash')
+require('laravel-mix-versionhash')
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 mix
@@ -12,8 +12,8 @@ mix
 if (mix.inProduction()) {
   mix
     // .extract() // Disabled until resolved: https://github.com/JeffreyWay/laravel-mix/issues/1889
-    .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
-    // .versionHash() // TODO: FIX THIS!
+    // .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
+    .versionHash()
 } else {
   mix.sourceMaps()
 }
