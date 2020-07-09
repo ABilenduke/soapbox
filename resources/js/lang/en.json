@@ -57,6 +57,7 @@
   "articleLinkCopied": "The link has been copied to your clipboard!",
   "link": "Link",
   "edit": "Edit",
+  "fetchingResults": "Fetching more results...",
   "share": {
     "title": "Share",
     "facebook": "Share on Facebook",

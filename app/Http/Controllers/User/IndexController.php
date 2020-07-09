@@ -22,7 +22,7 @@ class IndexController extends Controller
             $users = User::paginate(16);
         }
 
-        return response()->json(['users' => $users], 200);
+        return response()->json(['contents' => $users], 200);
     }
 
     public function show()

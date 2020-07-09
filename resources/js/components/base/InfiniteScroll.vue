@@ -29,6 +29,19 @@
         </p>
       </v-col>
     </v-row>
+    <div v-if="isLoading" class="fetching-message-container">
+      <div class="fetching-message">
+        <v-progress-circular
+          :size="20"
+          :width="3"
+          indeterminate
+          color="primary"
+        />
+        <span class="fetching-message-span">
+          {{ $t('fetchingResults') }}
+        </span>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -69,11 +82,8 @@ export default {
   }),
   watch: {
     isLoading(value) {
-      if (value) {
-        this.$emit('isLoading')
-      } else {
-        this.$emit('finishedLoading')
-      }
+      const loadingEvent = value ? 'isLoading' : 'finishedLoading'
+      this.$emit(loadingEvent)
     }
   },
   created() {
@@ -135,3 +145,27 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.fetching-message-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 5px;
+}
+.fetching-message {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+  border-radius: 5px;
+}
+.fetching-message-span {
+  padding-left: 5px;
+}
+</style>
