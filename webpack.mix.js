@@ -6,14 +6,15 @@ const mix = require('laravel-mix')
 mix
   .js('resources/js/app.js', 'public/dist/js')
   .sass('resources/sass/app.scss', 'public/dist/css')
+
   .disableNotifications()
 
 if (mix.inProduction()) {
   require('laravel-mix-versionhash')
   mix
     // .extract() // Disabled until resolved: https://github.com/JeffreyWay/laravel-mix/issues/1889
-    .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
-    // .versionHash() // TODO: FIX THIS!
+    // .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
+    .versionHash()
 } else {
   mix.sourceMaps()
 }

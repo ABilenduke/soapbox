@@ -10,10 +10,12 @@ import router from '~/router'
 import i18n from '~/plugins/i18n'
 import vuetify from '~/plugins/vuetify'
 import App from '~/components/App'
+// import VueMoment from 'vue-moment'
 
 import '~/plugins'
 import '~/components'
 
+// Vue.use(VueMoment);
 Vue.config.productionTip = false
 
 /**

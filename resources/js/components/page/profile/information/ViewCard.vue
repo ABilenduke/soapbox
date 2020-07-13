@@ -69,9 +69,9 @@
                       <h4>
                         {{ $t('joined') }}
                       </h4>
-                      <h5 class="pl-3">
+                      <!-- <h5 class="pl-3">
                         {{ joinedAt() }}
-                      </h5>
+                      </h5> -->
                       </v-col>
                   </v-row>
                 </v-container>
@@ -87,7 +87,6 @@
 <script>
 import { ADD_MESSAGE } from "~/store/mutation-types";
 import { mapGetters } from "vuex";
-import moment from 'moment'
 
 export default {
   name: "ProfileViewCard",
@@ -120,7 +119,7 @@ export default {
         });
     },
     joinedAt() {
-      return new moment(this.vxUser.created_at).fromNow()
+      // return new moment(this.vxUser.created_at).fromNow()
     }
   }
 };

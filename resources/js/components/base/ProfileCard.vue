@@ -96,7 +96,6 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import { mapGetters } from "vuex";
 
 export default {
@@ -121,8 +120,8 @@ export default {
   },
   methods: {
     joinedAt() {
-      const joinedMoment = new moment(this.user.created_at).fromNow();
-      return `${this.$t("joined")}: ${joinedMoment}`;
+      // const joinedMoment = new moment(this.user.created_at).fromNow();
+      // return `${this.$t("joined")}: ${joinedMoment}`;
     },
     followUser() {
       if (!this.vxIsAuthUser) {
