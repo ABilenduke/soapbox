@@ -26,7 +26,7 @@ class IndexController extends Controller
     {
         $articles = Article::where('is_published', true)->paginate(15);
 
-        return response()->json(['articles' => $articles], 200);
+        return response()->json(['contents' => $articles], 200);
     }
 
     public function show($id)

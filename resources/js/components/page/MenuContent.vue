@@ -39,8 +39,8 @@
 
     <v-spacer />
 
-    <LocaleDropdown />
     <DarkModeSwitch />
+    <LocaleDropdown />
     
   </v-list>
 </template>

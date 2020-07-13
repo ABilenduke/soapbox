@@ -102,7 +102,7 @@ export default {
   name: "ProfileCard",
   props: {
     closeOnClick: true,
-    user: {
+    content: {
       type: Object,
       required: true
     }
@@ -116,7 +116,7 @@ export default {
     })
   },
   created() {
-    this.userCopy = this.user;
+    this.userCopy = this.content;
   },
   methods: {
     joinedAt() {

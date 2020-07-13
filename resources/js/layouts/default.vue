@@ -1,101 +1,50 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      clipped
-    >
+    <v-navigation-drawer v-model="drawer" app clipped>
       <MenuContent />
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-      color="primary"
-      clipped-left
-      dark
-    >
+    <v-app-bar app color="primary" clipped-left dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title class="mr-12 align-center">
-        <v-img
-          src="/images/site/logo.png"
-          :height="45"
-          alt="site logo"
-          contain
-        />
+        <v-img src="/images/site/logo.png" :height="45" alt="site logo" contain />
       </v-toolbar-title>
 
       <v-spacer />
 
-      <v-menu
-        v-if="vxUser"
-        offset-y
-        :close-on-click="closeOnClick"
-      >
+      <v-menu v-if="vxUser" offset-y :close-on-click="closeOnClick">
         <template v-slot:activator="{ on }">
-            <v-avatar
-              :height="45"
-              :width="45"
-              v-on="on"
-              class="profile-picture-container"
-              tile
-            >
-              <img
-                :src="vxUser.avatar"
-                alt="user-avatar"
-              >
+          <div v-on="on">
+            <v-avatar class="profile-picture-container" tile>
+              <v-img :height="45" :width="45" :src="vxUser.avatar" alt="user-avatar" />
             </v-avatar>
+            {{ vxUser.username }}
+          </div>
         </template>
         <v-list v-if="userMenuItems">
-          <v-list-item
-            v-for="item in userMenuItems"
-            :key="item.text"
-            link
-            :to="item.to"
-          >
+          <v-list-item v-for="item in userMenuItems" :key="item.text" link :to="item.to">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>
-                {{ item.text }}
-              </v-list-item-title>
+              <v-list-item-title>{{ item.text }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item
-            link
-            @click="logout()"
-          >
+          <v-list-item link @click="logout()">
             <v-list-item-action>
-              <v-icon>
-                mdi-exit-to-app
-              </v-icon>
+              <v-icon>mdi-exit-to-app</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>
-                {{ $t('logout') }}
-              </v-list-item-title>
+              <v-list-item-title>{{ $t('logout') }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-menu>
 
       <template v-else>
-        <v-btn
-          color="green"
-          link
-          :to="{ name: 'register' }"
-        >
-          {{ $t('register.title') }}
-        </v-btn>
-        <v-btn
-          link
-          :to="{ name: 'login' }"
-          class="ml-1"
-          text
-        >
-          {{ $t('login.title') }}
-        </v-btn>
+        <v-btn color="green" link :to="{ name: 'register' }">{{ $t('register.title') }}</v-btn>
+        <v-btn link :to="{ name: 'login' }" class="ml-1" text>{{ $t('login.title') }}</v-btn>
       </template>
     </v-app-bar>
 
@@ -108,15 +57,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import MenuContent from '../components/page/MenuContent.vue'
-import FlashMessages from '../components/page/FlashMessages.vue'
-import { ADD_MESSAGE } from '~/store/mutation-types'
+import { mapGetters } from "vuex";
+import MenuContent from "../components/page/MenuContent.vue";
+import FlashMessages from "../components/page/FlashMessages.vue";
+import { ADD_MESSAGE } from "~/store/mutation-types";
 
 export default {
   components: { MenuContent, FlashMessages },
   props: {
-    source: String,
+    source: String
   },
   data: () => ({
     drawer: null,
@@ -125,32 +74,40 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      vxUser: 'auth/user'
+      vxUser: "auth/user"
     }),
     userMenuItems() {
       if (this.vxUser) {
         return [
-          { icon: 'mdi-account-box', text: this.$t('profile.title'), to: `/profile/${this.vxUser.username}` },
-          { icon: 'mdi-cog', text: this.$t('settings'), to: '/profile/settings' },
-        ]
+          {
+            icon: "mdi-account-box",
+            text: this.$t("profile.title"),
+            to: `/profile/${this.vxUser.username}`
+          },
+          {
+            icon: "mdi-cog",
+            text: this.$t("settings"),
+            to: "/profile/settings"
+          }
+        ];
       }
-      return []
+      return [];
     }
   },
   methods: {
     async logout() {
-      await this.$store.dispatch('auth/logout')
+      await this.$store.dispatch("auth/logout");
 
-      this.$store.commit(`flash/${ ADD_MESSAGE }`, {
-        level: 'success',
-        body: 'Logged out successfully',
+      this.$store.commit(`flash/${ADD_MESSAGE}`, {
+        level: "success",
+        body: "Logged out successfully",
         isAutoRemove: true
-      })
+      });
 
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: "login" });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

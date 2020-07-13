@@ -1,6 +1,13 @@
 <template>
   <v-list-item>
-    <v-select :items="locales" :label="$t('locale')" flat dense solo @input="setLocale" />
+    <v-select
+      :items="locales"
+      :label="$t('locale')"
+      flat
+      dense
+      solo
+      @input="setLocale"
+    />
   </v-list-item>
 </template>
 

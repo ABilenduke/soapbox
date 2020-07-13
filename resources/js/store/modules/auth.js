@@ -174,7 +174,7 @@ export const actions = {
           body: 'Avatar uploaded successfully.',
           isAutoRemove: true
         }, { root: true })
-        commit(types.UPDATE_USER_AVATAR, data.path)
+        commit(types.UPDATE_USER_AVATAR, `/storage/${data.path}`)
         resolve()
       })
       .catch(() => {

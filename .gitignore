@@ -13,5 +13,5 @@
 npm-debug.log
 yarn-error.log
 /mysql/data
-/nginx/log
+/nginx/log/*
 *.code-workspace
